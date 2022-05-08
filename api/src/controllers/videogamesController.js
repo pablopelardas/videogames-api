@@ -115,7 +115,31 @@ const getGameById = async (req, res, next) => {
 	}
 };
 
+const createGame = async (req, res, next) => {
+	const { name, description, release_date, rating, platforms } = req.body;
+	if (!name || !description || !platforms)
+		return res
+			.status(400)
+			.send(
+				`El videojuego requiere como mínimo un nombre, una descripción y sus plataformas para ser creado.`
+			);
+	try {
+		const newVg = await Videogame.create({
+			name,
+			description,
+			release_date,
+			rating,
+			platforms,
+		});
+		console.log(`Juego creado!`);
+		return res.status(201).send(newVg);
+	} catch (error) {
+		return next(error);
+	}
+};
+
 module.exports = {
 	getGames,
 	getGameById,
+	createGame,
 };
