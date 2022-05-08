@@ -4,10 +4,10 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
 	// defino el modelo
 	sequelize.define('videogame', {
-		id: {
+		uid: {
 			type: DataTypes.UUID,
-			primaryKey: true,
 			defaultValue: DataTypes.UUIDV4,
+			primaryKey: true,
 		},
 		name: {
 			type: DataTypes.STRING,
@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
 			allowNull: false,
 		},
 		launch_date: {
-			type: DataTypes.DATEONLY,
+			type: DataTypes.STRING,
 		},
 		rating: {
 			type: DataTypes.FLOAT,
@@ -27,10 +27,10 @@ module.exports = (sequelize) => {
 			type: DataTypes.STRING,
 			allowNull: false,
 			get() {
-				return this.getDataValue('favColors').split(';');
+				return this.getDataValue('platforms').split(', ');
 			},
 			set(val) {
-				this.setDataValue('favColors', val.join(';'));
+				this.setDataValue('platforms', val.join(', '));
 			},
 		},
 	});
