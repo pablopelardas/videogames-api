@@ -1,8 +1,16 @@
 import React from 'react';
 import { Main } from './styled-components';
 import GameCards from './components/GameCards';
+import { useDispatch, useSelector } from 'react-redux';
+import { getGames } from '../../redux/actions';
 
 const Home = () => {
+	const dispatch = useDispatch();
+
+	React.useEffect(() => {
+		dispatch(getGames());
+	}, []);
+
 	return (
 		<Main>
 			<div className='searchbar'>

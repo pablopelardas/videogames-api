@@ -10,6 +10,10 @@ export const CardsContainer = styled.div`
 	justify-content: center;
 	flex-wrap: wrap;
 	gap: 30px;
+
+	& h1 {
+		color: white;
+	}
 `;
 
 export const Box = styled.div`

@@ -4,7 +4,11 @@ import bg from './assets/card-bg.png';
 export const Card = styled.article`
 	width: 250px;
 	height: 300px;
-	overflow: scroll;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	::-webkit-scrollbar {
+		display: none;
+	}
 	background-image: url(${bg});
 	& h2 {
 		font-size: 2rem;

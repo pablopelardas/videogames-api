@@ -1,6 +1,6 @@
 require('dotenv').config();
 const axios = require('axios');
-const { Videogame, Op } = require('../db.js');
+const { Videogame, Op, Genre } = require('../db.js');
 const { API_KEY } = process.env;
 
 //Functions
@@ -18,7 +18,9 @@ const fetchApi = (videoGames, nextPage) => {
 			const vgs = data.results.map((vg) => ({
 				id: vg.id,
 				name: vg.name,
-				launch_date: vg.released,
+				released_date: vg.released,
+				background_image: vg.background_image,
+				genres: vg.genres?.map((genre) => genre.name),
 				rating: vg.rating,
 				platforms: vg.parent_platforms.map((plat) => {
 					return plat.platform.name;
@@ -29,13 +31,15 @@ const fetchApi = (videoGames, nextPage) => {
 		.catch((error) => console.log(error));
 };
 
-const fetchApiById = (id, page) => {
+const fetchApiById = (page) => {
 	return axios.get(page).then(({ data }) => {
 		const vg = {
 			id: data.id,
 			name: data.name,
 			description: data.description,
-			launch_date: data.released,
+			released_date: data.released,
+			background_image: data.background_image,
+			genres: data.genres.map((genre) => genre.name),
 			rating: data.rating,
 			platforms: data.parent_platforms.map((plat) => {
 				return plat.platform.name;
@@ -102,7 +106,6 @@ const getGameById = async (req, res, next) => {
 			}
 		} else {
 			const apiGame = await fetchApiById(
-				id,
 				`https://api.rawg.io/api/games/${id}?key=${API_KEY}`
 			);
 			if (apiGame) {
@@ -116,7 +119,8 @@ const getGameById = async (req, res, next) => {
 };
 
 const createGame = async (req, res, next) => {
-	const { name, description, release_date, rating, platforms } = req.body;
+	const { name, description, release_date, rating, platforms, genres } =
+		req.body;
 	if (!name || !description || !platforms)
 		return res
 			.status(400)
@@ -131,6 +135,8 @@ const createGame = async (req, res, next) => {
 			rating,
 			platforms,
 		});
+		await newVg.setGenres(genres);
+		console.log(genres[0]);
 		console.log(`Juego creado!`);
 		return res.status(201).send(newVg);
 	} catch (error) {

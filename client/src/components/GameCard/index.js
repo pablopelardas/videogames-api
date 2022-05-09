@@ -1,17 +1,21 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Card } from './StyledGameCard';
 
 import unknown from './assets/question-mark.png';
 
-const GameCard = () => {
+const GameCard = ({ name, id, rating, genres, background_image }) => {
 	return (
 		<Card>
-			<h2>Juego de prueba este es un juego de prueba</h2>
-			<img width='250px' height='150px' src={unknown} alt='game' />
-			<p>⭐rating</p>
+			<h2>{name}</h2>
+			<img
+				width='250px'
+				height='150px'
+				src={background_image || unknown}
+				alt='game'
+			/>
+			<p>⭐{rating}</p>
 			<p>
-				<span>Genres:</span> genres genre
+				<span>Genres:</span> {genres.join(', ')}
 			</p>
 		</Card>
 	);
