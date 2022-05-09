@@ -109,7 +109,7 @@ const getGameById = async (req, res, next) => {
 				return res.send(apiGame);
 			}
 		}
-		return res.send(`No se encontro un juego con ese ID`);
+		return res.status(404).send(`No se encontro un juego con ese ID`);
 	} catch (error) {
 		next(error);
 	}
