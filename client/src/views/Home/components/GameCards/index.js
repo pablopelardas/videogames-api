@@ -1,16 +1,13 @@
 import React from 'react';
-import { CardsContainer } from './StyledGameCards';
-import GameCard from '../../../../components/GameCard';
-import { useSelector } from 'react-redux';
+import { CardsContainer, Section } from './StyledGameCards';
+import GameCard from '../GameCard';
 
-const GameCards = () => {
-	const gameList = useSelector((state) => state.games);
-	const pagina = gameList.splice(0, 15);
-
-	if (gameList.length) {
-		return (
+const GameCards = ({ games, currentPage }) => {
+	return (
+		<Section>
+			<h1>Page: {currentPage + 1}</h1>
 			<CardsContainer>
-				{pagina?.map((game) => (
+				{games?.map((game) => (
 					<GameCard
 						key={game.id}
 						id={game.id}
@@ -21,14 +18,8 @@ const GameCards = () => {
 					/>
 				))}
 			</CardsContainer>
-		);
-	} else {
-		return (
-			<CardsContainer>
-				<h1>Loading...</h1>
-			</CardsContainer>
-		);
-	}
+		</Section>
+	);
 };
 
 export default GameCards;

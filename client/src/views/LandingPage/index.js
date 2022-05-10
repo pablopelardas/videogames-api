@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Button, Main } from './styled-components';
+import { Button, Main } from './StyledLandingPage.js';
 
 import bgDesktop from './assets/landing-bg-desktopHD.jpg';
 

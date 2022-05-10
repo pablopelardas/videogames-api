@@ -25,4 +25,10 @@ export const Main = styled.main`
 
 	& .search {
 	}
+
+	& .loading {
+		color: white;
+		height: 100vh;
+		align-content: center;
+	}
 `;
