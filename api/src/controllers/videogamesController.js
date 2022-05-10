@@ -27,6 +27,7 @@ const fetchApi = (videoGames, nextPage) => {
 				}),
 			}));
 			vgs.forEach((vg) => videoGames.push(vg));
+			return nextPage;
 		})
 		.catch((error) => console.log(error));
 };
@@ -68,7 +69,8 @@ const getGames = async (req, res, next) => {
 			let end = 15;
 			if (vgs.length) {
 				end -= vgs.length;
-				vgs.forEach((vg) => videoGames.push(vg));
+				// vgs.forEach((vg) => videoGames.push(vg));
+				videoGames.push([...vgs]);
 			}
 
 			await fetchApi(videoGames, nextPage);
@@ -81,17 +83,40 @@ const getGames = async (req, res, next) => {
 	}
 	try {
 		nextPage = `https://api.rawg.io/api/games?key=${API_KEY}`;
-		const vgs = await Videogame.findAll();
-		vgs.forEach((vg) => videoGames.push(vg));
+		const vgs = await Videogame.findAll({
+			include: {
+				model: Genre,
+				attributes: ['name'],
+				through: {
+					attributes: [],
+				},
+			},
+		});
+
+		videoGames.push([...vgs]);
+		let apiVideoGames = [];
 		for (let i = 0; i < 5; i++) {
-			await fetchApi(videoGames, nextPage);
+			nextPage = await fetchApi(apiVideoGames, nextPage);
 		}
+		videoGames.push([...apiVideoGames]);
 		console.log(videoGames.length);
 		return res.send(videoGames);
 	} catch (error) {
 		return next(error);
 	}
 };
+
+// const getAllGames = async(req,res,next) => {
+//   const videoGames = [];
+// 	let nextPage = `https://api.rawg.io/api/games?key=${API_KEY}`;
+//   try {
+//     for (let i=0 ; i < 5 ; i++){
+//       await fetchApi(videoGames,nextPage)
+//     }
+//   } catch (error) {
+//     return next(error)
+//   }
+// }
 
 const getGameById = async (req, res, next) => {
 	const { id } = req.params;

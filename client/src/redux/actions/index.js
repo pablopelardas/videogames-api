@@ -27,6 +27,6 @@ export const getGenres = () => async (dispatch) => {
 	}
 };
 
-export const getGamesByGenre = (genre) => (dispatch) => {
-	dispatch({ type: GET_GAMES_BY_GENRE, payload: genre });
+export const getGamesByGenre = (genre, source) => (dispatch) => {
+	dispatch({ type: GET_GAMES_BY_GENRE, payload: { genre, source } });
 };

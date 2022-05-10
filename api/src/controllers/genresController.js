@@ -24,7 +24,6 @@ const getGenres = async (req, res, next) => {
 	let page = `https://api.rawg.io/api/genres?key=${API_KEY}`;
 	try {
 		genres = await fetchGenres(page);
-		console.log(`Genres `);
 		const promises = genres.map((genre) =>
 			Genre.findOrCreate({
 				where: { name: genre.name },
@@ -34,7 +33,6 @@ const getGenres = async (req, res, next) => {
 			})
 		);
 		await Promise.all(promises);
-		console.log('Genres creados');
 		return res.send(genres);
 	} catch (error) {
 		return next(error);

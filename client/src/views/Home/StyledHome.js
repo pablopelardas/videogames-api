@@ -13,9 +13,9 @@ export const Main = styled.main`
 	& .searchbar {
 		margin-top: 20px;
 		background-color: grey;
-		height: 80px;
+		height: auto;
+		padding: 20px 0;
 		width: 100%;
-		padding-top: 5px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;

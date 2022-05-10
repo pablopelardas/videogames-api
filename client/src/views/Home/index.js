@@ -19,6 +19,8 @@ const Home = () => {
 	const [currentGenre, setGenre] = React.useState('All');
 	const [loading, setLoading] = React.useState(true);
 	const [limit, setLimit] = React.useState(0);
+	const [source, setSource] = React.useState('Api');
+	const [sort, setSort] = React.useState({ type: 'ORDER BY', option: 'all' });
 
 	const [pageButtons, setPageButtons] = React.useState([]);
 
@@ -40,10 +42,47 @@ const Home = () => {
 	const handleGenreSelection = (e) => {
 		setGenre((state) => {
 			state = `${e.target.value}`;
-			dispatch(getGamesByGenre(state));
+			dispatch(getGamesByGenre(state, source));
 			return state;
 		});
 		setPage(0);
+	};
+	const handleSourceSelection = (e) => {
+		setSource((state) => {
+			state = `${e.target.value}`;
+			dispatch(getGamesByGenre(currentGenre, state));
+			return state;
+		});
+		setPage(0);
+	};
+	const handleSortSelection = (e) => {
+		setSort((state) => {
+			let [type, option] = e.target.value.split(' ');
+			state = { type, option };
+			console.log(state);
+			return state;
+		});
+	};
+
+	const applySort = (array) => {
+		switch (sort.type) {
+			case `ORDER BY`:
+				return array;
+			case `RATING`:
+				if (sort.option === 'DES')
+					return array.sort((a, b) => b.rating - a.rating);
+				if (sort.option === 'ASC')
+					return array.sort((a, b) => a.rating - b.rating);
+				break;
+			case `NAME`:
+				if (sort.option === 'ASC')
+					return array.sort((a, b) => a.name.localeCompare(b.name));
+				if (sort.option === 'DES')
+					return array.sort((a, b) => b.name.localeCompare(a.name));
+				break;
+			default:
+				return array;
+		}
 	};
 
 	React.useEffect(() => {
@@ -52,16 +91,71 @@ const Home = () => {
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 	React.useEffect(() => {
 		if (gameList.length) {
-			if (currentGenre === 'All') {
-				setGames([...gameList].splice(page * GAMES_PER_PAGE, GAMES_PER_PAGE));
-				setLimit(Math.ceil(gameList.length / 15));
-				setLoading(false);
-			} else {
-				setGames(
-					[...gamesByGenre].splice(page * GAMES_PER_PAGE, GAMES_PER_PAGE)
-				);
-				setLimit(Math.ceil(gamesByGenre.length / 15));
-				if (games.length) setLoading(false);
+			switch (source) {
+				case 'Api':
+					if (currentGenre === 'All') {
+						setGames(
+							applySort([...gameList[1]]).splice(
+								page * GAMES_PER_PAGE,
+								GAMES_PER_PAGE
+							)
+						);
+						setLimit(Math.ceil(gameList[1].length / 15));
+						setLoading(false);
+					} else {
+						setGames(
+							applySort([...gamesByGenre]).splice(
+								page * GAMES_PER_PAGE,
+								GAMES_PER_PAGE
+							)
+						);
+						setLimit(Math.ceil(gamesByGenre.length / 15));
+						if (games.length) setLoading(false);
+					}
+					break;
+				case 'Database':
+					if (currentGenre === 'All') {
+						setGames(
+							applySort([...gameList[0]]).splice(
+								page * GAMES_PER_PAGE,
+								GAMES_PER_PAGE
+							)
+						);
+						setLimit(Math.ceil(gameList[0].length / 15));
+						setLoading(false);
+					} else {
+						setGames(
+							applySort([...gamesByGenre]).splice(
+								page * GAMES_PER_PAGE,
+								GAMES_PER_PAGE
+							)
+						);
+						setLimit(Math.ceil(gamesByGenre.length / 15));
+						if (games.length) setLoading(false);
+					}
+					break;
+				default: {
+					if (currentGenre === 'All') {
+						setGames(
+							applySort([...gameList].flat(2)).splice(
+								page * GAMES_PER_PAGE,
+								GAMES_PER_PAGE
+							)
+						);
+						setLimit(Math.ceil(gameList[1].length / 15));
+						setLoading(false);
+					} else {
+						setGames(
+							applySort([...gamesByGenre]).splice(
+								page * GAMES_PER_PAGE,
+								GAMES_PER_PAGE
+							)
+						);
+						setLimit(Math.ceil(gamesByGenre.length / 15));
+						if (games.length) setLoading(false);
+					}
+					break;
+				}
 			}
 			let auxPages = [];
 			for (let i = 0; i < limit; i++) {
@@ -73,7 +167,7 @@ const Home = () => {
 			}
 			setPageButtons([...auxPages]);
 		}
-	}, [gameList, page, currentGenre, gamesByGenre, limit]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [gameList, page, currentGenre, gamesByGenre, limit, sort]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<Main>
@@ -89,8 +183,16 @@ const Home = () => {
 						<button onClick={nextHandler}>Next</button>
 					</div>
 				)}
-				<div>
-					{/* Filtros y Sorts */}
+				<div className='sorts'>
+					<select onChange={handleSortSelection} defaultValue='ORDER BY'>
+						<option value='ORDER BY'>ORDER BY</option>
+						<option value='RATING DES'>RATING (DES)</option>
+						<option value='RATING ASC'>RATING (ASC)</option>
+						<option value='NAME ASC'>{`NAME A--> Z`}</option>
+						<option value='NAME DES'>{`NAME Z--> A`}</option>
+					</select>
+				</div>
+				<div className='filters'>
 					<select onChange={handleGenreSelection}>
 						<option value='All'>All</option>
 						{genres.map((genre) => (
@@ -99,7 +201,11 @@ const Home = () => {
 							</option>
 						))}
 					</select>
-					<select />
+					<select defaultValue='Api' onChange={handleSourceSelection}>
+						<option value='All'>All</option>
+						<option value='Api'>Api</option>
+						<option value='Database'>Database</option>
+					</select>
 				</div>
 			</div>
 			{!loading ? (
