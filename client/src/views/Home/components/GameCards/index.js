@@ -2,7 +2,7 @@ import React from 'react';
 import { CardsContainer, Section } from './StyledGameCards';
 import GameCard from '../GameCard';
 
-const GameCards = ({ games, currentPage }) => {
+const GameCards = ({ games, currentPage, handleCardClick }) => {
 	return (
 		<Section>
 			<h1>Page: {currentPage + 1}</h1>
@@ -15,6 +15,7 @@ const GameCards = ({ games, currentPage }) => {
 						rating={game.rating}
 						background_image={game.background_image}
 						genres={game.genres}
+						handleCardClick={handleCardClick}
 					/>
 				))}
 			</CardsContainer>

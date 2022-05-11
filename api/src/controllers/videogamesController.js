@@ -72,10 +72,11 @@ const getGames = async (req, res, next) => {
 				// vgs.forEach((vg) => videoGames.push(vg));
 				videoGames.push([...vgs]);
 			}
-
-			await fetchApi(videoGames, nextPage);
-			return videoGames.length
-				? res.send(videoGames.slice(0, end))
+			let apiVideoGames = [];
+			await fetchApi(apiVideoGames, nextPage);
+			videoGames.push([...apiVideoGames]);
+			return videoGames.flat(2).length
+				? res.send(videoGames.flat(2).slice(0, end))
 				: res.status(404).send(`No se encontraron juegos con ese nombre`);
 		} catch (error) {
 			return next(error);

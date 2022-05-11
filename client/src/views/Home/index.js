@@ -1,8 +1,9 @@
 import React from 'react';
-import { Main } from './StyledHome';
+import { Main_home } from './StyledHome';
 import GameCards from './components/GameCards';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGames, getGenres, getGamesByGenre } from '../../redux/actions';
+import { useNavigate } from 'react-router-dom';
 
 const GAMES_PER_PAGE = 15;
 
@@ -12,6 +13,9 @@ const Home = () => {
 	const gameList = useSelector((state) => state.games);
 	const genres = useSelector((state) => state.genres);
 	const gamesByGenre = useSelector((state) => state.gamesByGenre);
+	const gamesByName = useSelector((state) => state.gamesByName);
+
+	const navigate = useNavigate();
 
 	// Local States
 	const [page, setPage] = React.useState(0);
@@ -21,6 +25,7 @@ const Home = () => {
 	const [limit, setLimit] = React.useState(0);
 	const [source, setSource] = React.useState('Api');
 	const [sort, setSort] = React.useState({ type: 'ORDER BY', option: 'all' });
+	const [input, setInput] = React.useState('');
 
 	const [pageButtons, setPageButtons] = React.useState([]);
 
@@ -62,6 +67,14 @@ const Home = () => {
 			console.log(state);
 			return state;
 		});
+	};
+	const handleSearch = (e) => {
+		dispatch(getGames(input));
+		setLoading(true);
+	};
+
+	const handleCardClick = (id) => {
+		navigate(`/detail/${id}`);
 	};
 
 	const applySort = (array) => {
@@ -168,13 +181,24 @@ const Home = () => {
 			setPageButtons([...auxPages]);
 		}
 	}, [gameList, page, currentGenre, gamesByGenre, limit, sort]); // eslint-disable-line react-hooks/exhaustive-deps
+	React.useEffect(() => {
+		if (gamesByName.length) {
+			console.log(gamesByName);
+			setGames([...gamesByName]);
+			setLoading(false);
+		}
+	}, [gamesByName]);
 
 	return (
-		<Main>
+		<Main_home>
 			<div className='searchbar'>
 				<div className='search'>
-					<input placeholder='Search game' />
-					<button>Search</button>
+					<input
+						placeholder='Search game'
+						value={input}
+						onChange={(e) => setInput(e.target.value)}
+					/>
+					<button onClick={handleSearch}>Search</button>
 				</div>
 				{!loading && (
 					<div className='pages'>
@@ -209,11 +233,15 @@ const Home = () => {
 				</div>
 			</div>
 			{!loading ? (
-				<GameCards games={games} currentPage={page} />
+				<GameCards
+					games={games}
+					currentPage={page}
+					handleCardClick={handleCardClick}
+				/>
 			) : (
 				<h1 className='loading'>Loading...</h1>
 			)}
-		</Main>
+		</Main_home>
 	);
 };
 

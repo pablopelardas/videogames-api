@@ -3,9 +3,16 @@ import { Card } from './StyledGameCard';
 
 import unknown from './assets/question-mark.png';
 
-const GameCard = ({ name, id, rating, genres, background_image }) => {
+const GameCard = ({
+	name,
+	id,
+	rating,
+	genres,
+	background_image,
+	handleCardClick,
+}) => {
 	return (
-		<Card>
+		<Card onClick={() => handleCardClick(id)}>
 			<h2>{name}</h2>
 			<img
 				width='250px'

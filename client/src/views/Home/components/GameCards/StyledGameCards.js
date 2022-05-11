@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Container } from '../../../../styled-components/StyledContainer';
 
 export const Section = styled.section`
 	display: flex;
@@ -13,11 +14,7 @@ export const Section = styled.section`
 	}
 `;
 
-export const CardsContainer = styled.div`
-	padding: 50px;
-	display: flex;
-	background-color: salmon;
-	justify-content: center;
+export const CardsContainer = styled(Container)`
 	flex-wrap: wrap;
 	gap: 30px;
 

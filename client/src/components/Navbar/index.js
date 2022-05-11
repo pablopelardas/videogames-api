@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header } from './styled-components';
+import { Header } from './StyledNavbar.js';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
