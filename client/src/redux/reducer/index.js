@@ -56,20 +56,20 @@ const gamesReducer = (state = initialState, action) => {
 
 			switch (action.payload.source) {
 				case 'Api':
-					filteredGames = state?.games[1].filter((game) =>
-						game.genres.includes(action.payload.genre)
+					filteredGames = state.games[1]?.filter((game) =>
+						game.genres?.includes(action.payload.genre)
 					);
 					break;
 				case 'Database':
-					filteredGames = state?.games[0].filter((game) =>
-						game.genres.includes(action.payload.genre)
+					filteredGames = state.games[0]?.filter((game) =>
+						game.genres?.includes(action.payload.genre)
 					);
 					break;
 				case 'All':
 					state.games &&
 						(filteredGames = state?.games
 							.flat(2)
-							.filter((game) => game.genres.includes(action.payload.genre)));
+							.filter((game) => game.genres?.includes(action.payload.genre)));
 					break;
 				default:
 					return state;
@@ -79,6 +79,10 @@ const gamesReducer = (state = initialState, action) => {
 				gamesByGenre: [...filteredGames],
 			};
 		case GET_GAME_DETAIL: {
+			console.log(typeof action.payload.genres[0]);
+			if (typeof action.payload.genres[0] === 'object') {
+				action.payload.genres = action.payload.genres.map((g) => g.name);
+			}
 			return {
 				...state,
 				gameDetail: action.payload,

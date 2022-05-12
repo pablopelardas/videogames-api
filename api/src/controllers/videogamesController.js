@@ -112,10 +112,20 @@ const getGameById = async (req, res, next) => {
 	try {
 		console.log(typeof id);
 		if (validateUUID(id)) {
-			const dbGame = await Videogame.findByPk(id);
+			// const dbGame = await Videogame.findByPk(id);
+			const dbGame = await Videogame.findOne({
+				where: {
+					id: id,
+				},
+				include: {
+					model: Genre,
+					attributes: ['name'],
+					through: {
+						attributes: [],
+					},
+				},
+			});
 			if (dbGame) {
-				// get genres del juego
-				console.log(dbGame);
 				return res.send(dbGame);
 			}
 		} else {
