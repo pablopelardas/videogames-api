@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Main } from '../../styled-components/StyledMain.js';
 
-export const Main_home = styled(Main)`
+export const HOME_SECTION = styled(Main)`
 	& .searchbar {
 		margin-top: 20px;
 		background-color: grey;

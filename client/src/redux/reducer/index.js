@@ -1,5 +1,8 @@
 import {
-	GET_GAMES,
+	CREATE_GAME,
+	GET_GAMES_SUCCESS,
+	SET_ERRORS,
+	SET_LOADING,
 	GET_GAMES_BY_GENRE,
 	GET_GAME_DETAIL,
 	GET_GENRES,
@@ -7,6 +10,8 @@ import {
 
 const initialState = {
 	games: [],
+	isLoading: false,
+	gamesError: {},
 	genres: [],
 	gamesByGenre: [],
 	gamesByName: [],
@@ -15,7 +20,20 @@ const initialState = {
 
 const gamesReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case GET_GAMES:
+		case SET_LOADING:
+			return {
+				...state,
+				gamesError: {},
+				isLoading: true,
+			};
+		case SET_ERRORS:
+			return {
+				...state,
+				isLoading: false,
+				gamesError: action.payload,
+			};
+			break;
+		case GET_GAMES_SUCCESS:
 			if (Array.isArray(action.payload[0])) {
 				action.payload[0] = action.payload[0].map((vg) => ({
 					...vg,
@@ -24,9 +42,10 @@ const gamesReducer = (state = initialState, action) => {
 
 				return {
 					...state,
+					isLoading: false,
 					games: action.payload,
 				};
-			} else return { ...state, gamesByName: action.payload };
+			} else return { ...state, isLoading: false, gamesByName: action.payload };
 		case GET_GENRES:
 			return {
 				...state,
@@ -34,7 +53,6 @@ const gamesReducer = (state = initialState, action) => {
 			};
 		case GET_GAMES_BY_GENRE:
 			let filteredGames = [];
-			console.log(state.games);
 
 			switch (action.payload.source) {
 				case 'Api':
@@ -66,6 +84,18 @@ const gamesReducer = (state = initialState, action) => {
 				gameDetail: action.payload,
 			};
 		}
+		case CREATE_GAME:
+			let newState = state.games;
+			console.log(action.payload.genres);
+			action.payload.genres = action.payload.genres.map(
+				(g) => state.genres.find((genre) => g === genre.id).name
+			);
+			newState[0].push(action.payload);
+			return {
+				...state,
+				isLoading: false,
+				games: newState,
+			};
 		default:
 			return state;
 	}

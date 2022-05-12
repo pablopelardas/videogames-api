@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Main } from '../../styled-components/StyledMain.js';
 import { Container } from '../../styled-components/StyledContainer.js';
 
-export const Main_detail = styled(Main)`
+export const DETAIL_MAIN = styled(Main)`
 	color: black;
 	& h1 {
 		color: white;
@@ -12,7 +12,7 @@ export const Main_detail = styled(Main)`
 	}
 `;
 
-export const Container_detail = styled(Container)`
+export const DETAIL_CONTAINER = styled(Container)`
 	width: 60vw;
 	min-width: 320px;
 	display: grid;

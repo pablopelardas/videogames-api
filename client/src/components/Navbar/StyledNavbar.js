@@ -11,6 +11,8 @@ const Header = styled.header`
 	& nav {
 		background: green;
 		font-size: 2rem;
+		display: flex;
+		gap: 20px;
 	}
 `;
 

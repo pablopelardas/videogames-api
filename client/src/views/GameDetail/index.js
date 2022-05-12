@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGameDetail } from '../../redux/actions';
 
-import { Main_detail, Container_detail } from './StyledGameDetail';
+import { DETAIL_MAIN, DETAIL_CONTAINER } from './StyledGameDetail';
 
 const GameDetail = () => {
 	const { id } = useParams();
@@ -14,22 +14,22 @@ const GameDetail = () => {
 	React.useEffect(() => {
 		dispatch(getGameDetail(id));
 		setLoading(true);
-	}, []);
+	}, [dispatch, id]);
 
 	React.useEffect(() => {
 		if (Object.keys(game).length) {
-			if (game.id == id) {
+			if (game.id.toString() === id) {
 				setLoading(false);
 			}
 		}
-	}, [game]);
+	}, [game]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
-		<Main_detail>
+		<DETAIL_MAIN>
 			{loading ? (
 				<h1>Loading...</h1>
 			) : (
-				<Container_detail>
+				<DETAIL_CONTAINER>
 					<h2>{game.name}</h2>
 					<div className='img-container'>
 						<img src={game.background_image} alt='game' />
@@ -51,9 +51,9 @@ const GameDetail = () => {
 							{game.platforms?.join(', ')}
 						</p>
 					</section>
-				</Container_detail>
+				</DETAIL_CONTAINER>
 			)}
-		</Main_detail>
+		</DETAIL_MAIN>
 	);
 };
 

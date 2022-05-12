@@ -5,6 +5,7 @@ import LandingPage from '../views/LandingPage';
 import Home from '../views/Home';
 import GameDetail from '../views/GameDetail';
 import Layout from '../views/Layout';
+import CreateGame from '../views/CreateGame';
 
 const MainRoutes = () => {
 	return (
@@ -14,7 +15,7 @@ const MainRoutes = () => {
 					<Route path='/' element={<LandingPage />} />
 					<Route path='/home' element={<Home />} />
 					<Route path='/detail/:id' element={<GameDetail />} />
-					<Route path='/create' />
+					<Route path='/create-game' element={<CreateGame />} />
 				</Routes>
 			</Layout>
 		</BrowserRouter>

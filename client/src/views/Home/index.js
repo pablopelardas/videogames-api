@@ -1,5 +1,5 @@
 import React from 'react';
-import { Main_home } from './StyledHome';
+import { HOME_SECTION } from './StyledHome';
 import GameCards from './components/GameCards';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGames, getGenres, getGamesByGenre } from '../../redux/actions';
@@ -14,6 +14,8 @@ const Home = () => {
 	const genres = useSelector((state) => state.genres);
 	const gamesByGenre = useSelector((state) => state.gamesByGenre);
 	const gamesByName = useSelector((state) => state.gamesByName);
+	const loading = useSelector((state) => state.isLoading);
+	const gamesError = useSelector((state) => state.gamesError);
 
 	const navigate = useNavigate();
 
@@ -21,7 +23,6 @@ const Home = () => {
 	const [page, setPage] = React.useState(0);
 	const [games, setGames] = React.useState([]);
 	const [currentGenre, setGenre] = React.useState('All');
-	const [loading, setLoading] = React.useState(true);
 	const [limit, setLimit] = React.useState(0);
 	const [source, setSource] = React.useState('Api');
 	const [sort, setSort] = React.useState({ type: 'ORDER BY', option: 'all' });
@@ -70,7 +71,6 @@ const Home = () => {
 	};
 	const handleSearch = (e) => {
 		dispatch(getGames(input));
-		setLoading(true);
 	};
 
 	const handleCardClick = (id) => {
@@ -100,74 +100,52 @@ const Home = () => {
 
 	React.useEffect(() => {
 		if (!gameList.length) dispatch(getGames());
-		if (!gameList.genres) dispatch(getGenres());
+		if (!genres.length) dispatch(getGenres());
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 	React.useEffect(() => {
+		let index = {
+			Api: 1,
+			Database: 0,
+		};
 		if (gameList.length) {
-			switch (source) {
-				case 'Api':
-					if (currentGenre === 'All') {
-						setGames(
-							applySort([...gameList[1]]).splice(
-								page * GAMES_PER_PAGE,
-								GAMES_PER_PAGE
-							)
-						);
-						setLimit(Math.ceil(gameList[1].length / 15));
-						setLoading(false);
-					} else {
-						setGames(
-							applySort([...gamesByGenre]).splice(
-								page * GAMES_PER_PAGE,
-								GAMES_PER_PAGE
-							)
-						);
-						setLimit(Math.ceil(gamesByGenre.length / 15));
-						if (games.length) setLoading(false);
-					}
-					break;
-				case 'Database':
-					if (currentGenre === 'All') {
-						setGames(
-							applySort([...gameList[0]]).splice(
-								page * GAMES_PER_PAGE,
-								GAMES_PER_PAGE
-							)
-						);
-						setLimit(Math.ceil(gameList[0].length / 15));
-						setLoading(false);
-					} else {
-						setGames(
-							applySort([...gamesByGenre]).splice(
-								page * GAMES_PER_PAGE,
-								GAMES_PER_PAGE
-							)
-						);
-						setLimit(Math.ceil(gamesByGenre.length / 15));
-						if (games.length) setLoading(false);
-					}
-					break;
-				default: {
-					if (currentGenre === 'All') {
-						setGames(
-							applySort([...gameList].flat(2)).splice(
-								page * GAMES_PER_PAGE,
-								GAMES_PER_PAGE
-							)
-						);
-						setLimit(Math.ceil(gameList[1].length / 15));
-						setLoading(false);
-					} else {
-						setGames(
-							applySort([...gamesByGenre]).splice(
-								page * GAMES_PER_PAGE,
-								GAMES_PER_PAGE
-							)
-						);
-						setLimit(Math.ceil(gamesByGenre.length / 15));
-						if (games.length) setLoading(false);
-					}
-					break;
+			// if (currentGenre === 'All'){
+			// }
+
+			if (source !== 'All') {
+				if (currentGenre === 'All') {
+					setGames(
+						applySort([...gameList[index[source]]]).splice(
+							page * GAMES_PER_PAGE,
+							GAMES_PER_PAGE
+						)
+					);
+					setLimit(Math.ceil(gameList[index[source]].length / 15));
+				} else {
+					setGames(
+						applySort([...gamesByGenre]).splice(
+							page * GAMES_PER_PAGE,
+							GAMES_PER_PAGE
+						)
+					);
+					setLimit(Math.ceil(gamesByGenre.length / 15));
+				}
+			} else {
+				if (currentGenre === 'All') {
+					setGames(
+						applySort([...gameList].flat(2)).splice(
+							page * GAMES_PER_PAGE,
+							GAMES_PER_PAGE
+						)
+					);
+					setLimit(Math.ceil(gameList[1].length / 15));
+				} else {
+					setGames(
+						applySort([...gamesByGenre]).splice(
+							page * GAMES_PER_PAGE,
+							GAMES_PER_PAGE
+						)
+					);
+					setLimit(Math.ceil(gamesByGenre.length / 15));
 				}
 			}
 			let auxPages = [];
@@ -185,12 +163,24 @@ const Home = () => {
 		if (gamesByName.length) {
 			console.log(gamesByName);
 			setGames([...gamesByName]);
-			setLoading(false);
 		}
 	}, [gamesByName]);
 
+	if (loading) {
+		return (
+			<HOME_SECTION>
+				<h1 className='loading'>Loading...</h1>
+			</HOME_SECTION>
+		);
+	}
+	console.log(gamesError);
+
 	return (
-		<Main_home>
+		<HOME_SECTION>
+			{console.log(gamesError)}
+			{gamesError && !!Object.keys(gamesError).length && (
+				<div className='error'>Error</div>
+			)}
 			<div className='searchbar'>
 				<div className='search'>
 					<input
@@ -200,13 +190,11 @@ const Home = () => {
 					/>
 					<button onClick={handleSearch}>Search</button>
 				</div>
-				{!loading && (
-					<div className='pages'>
-						<button onClick={prevHandler}>Previous</button>
-						{pageButtons}
-						<button onClick={nextHandler}>Next</button>
-					</div>
-				)}
+				<div className='pages'>
+					<button onClick={prevHandler}>Previous</button>
+					{pageButtons}
+					<button onClick={nextHandler}>Next</button>
+				</div>
 				<div className='sorts'>
 					<select onChange={handleSortSelection} defaultValue='ORDER BY'>
 						<option value='ORDER BY'>ORDER BY</option>
@@ -232,16 +220,12 @@ const Home = () => {
 					</select>
 				</div>
 			</div>
-			{!loading ? (
-				<GameCards
-					games={games}
-					currentPage={page}
-					handleCardClick={handleCardClick}
-				/>
-			) : (
-				<h1 className='loading'>Loading...</h1>
-			)}
-		</Main_home>
+			<GameCards
+				games={games}
+				currentPage={page}
+				handleCardClick={handleCardClick}
+			/>
+		</HOME_SECTION>
 	);
 };
 

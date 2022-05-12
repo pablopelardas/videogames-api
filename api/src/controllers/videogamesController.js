@@ -107,18 +107,6 @@ const getGames = async (req, res, next) => {
 	}
 };
 
-// const getAllGames = async(req,res,next) => {
-//   const videoGames = [];
-// 	let nextPage = `https://api.rawg.io/api/games?key=${API_KEY}`;
-//   try {
-//     for (let i=0 ; i < 5 ; i++){
-//       await fetchApi(videoGames,nextPage)
-//     }
-//   } catch (error) {
-//     return next(error)
-//   }
-// }
-
 const getGameById = async (req, res, next) => {
 	const { id } = req.params;
 	try {
@@ -145,8 +133,15 @@ const getGameById = async (req, res, next) => {
 };
 
 const createGame = async (req, res, next) => {
-	const { name, description, release_date, rating, platforms, genres } =
-		req.body;
+	const {
+		name,
+		description,
+		release_date,
+		rating,
+		platforms,
+		genres,
+		background_image,
+	} = req.body;
 	if (!name || !description || !platforms)
 		return res
 			.status(400)
@@ -160,10 +155,15 @@ const createGame = async (req, res, next) => {
 			release_date,
 			rating,
 			platforms,
+			background_image,
 		});
-		await newVg.setGenres(genres);
-		console.log(genres[0]);
+		if (genres) {
+			await newVg.setGenres(genres);
+		}
+		newVg.dataValues.genres = genres;
+
 		console.log(`Juego creado!`);
+		console.log(newVg);
 		return res.status(201).send(newVg);
 	} catch (error) {
 		return next(error);
