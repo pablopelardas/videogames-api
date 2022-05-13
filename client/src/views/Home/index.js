@@ -162,22 +162,9 @@ const Home = () => {
 		}
 	}, [gamesByName]);
 
-	if (loading) {
-		return (
-			<HOME_SECTION>
-				<HOME_GAME_CONTAINER>
-					<h1 className='loading'>Loading...</h1>
-				</HOME_GAME_CONTAINER>
-			</HOME_SECTION>
-		);
-	}
-
 	return (
 		<HOME_SECTION>
 			<HOME_GAME_CONTAINER>
-				{gamesError && !!Object.keys(gamesError).length && (
-					<div className='error'>Error</div>
-				)}
 				<SearchControls
 					gameList={gameList}
 					setGames={setGames}
@@ -193,11 +180,17 @@ const Home = () => {
 					page={page}
 					setPage={setPage}
 				/>
-				<GameCards
-					games={games}
-					currentPage={page}
-					handleCardClick={handleCardClick}
-				/>
+				{loading && <h1 className='loading'>Loading...</h1>}
+				{!!Object.keys(gamesError).length && (
+					<h1 className='loading'>{gamesError.message}</h1>
+				)}
+				{!Object.keys(gamesError).length && !loading && (
+					<GameCards
+						games={games}
+						currentPage={page}
+						handleCardClick={handleCardClick}
+					/>
+				)}
 			</HOME_GAME_CONTAINER>
 		</HOME_SECTION>
 	);
