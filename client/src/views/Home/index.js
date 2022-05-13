@@ -1,6 +1,7 @@
 import React from 'react';
 import { HOME_SECTION, HOME_GAME_CONTAINER } from './StyledHome';
 import GameCards from './components/GameCards';
+import SearchControls from './components/SearchControls';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGames, getGenres, getGamesByGenre } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
@@ -184,59 +185,22 @@ const Home = () => {
 				{gamesError && !!Object.keys(gamesError).length && (
 					<div className='error'>Error</div>
 				)}
-				<div className='searchbar'>
-					<div className='search'>
-						<input
-							placeholder='Search game'
-							value={input}
-							onChange={(e) => setInput(e.target.value)}
-						/>
-						<button onClick={handleSearch}>Search</button>
-					</div>
-					{searchResults ? (
-						<button
-							onClick={() => {
-								setSearchResults(false);
-								setPage(0);
-							}}
-						>
-							Return to all games
-						</button>
-					) : (
-						<>
-							<div className='pages'>
-								<button onClick={prevHandler}>Previous</button>
-								{pageButtons}
-								<button onClick={nextHandler}>Next</button>
-							</div>
-							<div className='sorts'>
-								<select onChange={handleSortSelection} defaultValue='ORDER BY'>
-									<option value='ORDER BY'>ORDER BY</option>
-									<option value='RATING DES'>RATING (DES)</option>
-									<option value='RATING ASC'>RATING (ASC)</option>
-									<option value='NAME ASC'>{`NAME A--> Z`}</option>
-									<option value='NAME DES'>{`NAME Z--> A`}</option>
-								</select>
-							</div>
-							<div className='filters'>
-								<select onChange={handleGenreSelection}>
-									<option value='All'>All</option>
-									{genres.map((genre) => (
-										<option value={genre.name} key={genre.id}>
-											{genre.name}
-										</option>
-									))}
-								</select>
-								<select defaultValue='Api' onChange={handleSourceSelection}>
-									<option value='All'>All</option>
-									<option value='Api'>Api</option>
-									<option value='Database'>Database</option>
-								</select>
-							</div>
-							<h1 className='searchbar--currentPage'>Page: {page + 1}</h1>
-						</>
-					)}
-				</div>
+				<SearchControls
+					input={input}
+					setInput={setInput}
+					searchResults={searchResults}
+					setSearchResults={setSearchResults}
+					handleSearch={handleSearch}
+					prevHandler={prevHandler}
+					nextHandler={nextHandler}
+					pageButtons={pageButtons}
+					handleSortSelection={handleSortSelection}
+					handleGenreSelection={handleGenreSelection}
+					handleSourceSelection={handleSourceSelection}
+					page={page}
+					setPage={setPage}
+					genres={genres}
+				/>
 				<GameCards
 					games={games}
 					currentPage={page}

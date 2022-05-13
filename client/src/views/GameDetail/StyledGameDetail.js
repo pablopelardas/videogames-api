@@ -14,7 +14,9 @@ export const DETAIL_MAIN = styled(Main)`
 
 export const DETAIL_CONTAINER = styled(Container)`
 	min-width: 320px;
-	display: grid;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
 	color: white;
 	justify-items: center;
 	.loading {
