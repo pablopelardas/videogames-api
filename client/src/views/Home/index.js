@@ -83,6 +83,7 @@ const Home = () => {
 		navigate(`/detail/${id}`);
 	};
 
+	//Custom Hook / game,
 	const applySort = {
 		ALL: (array) => array,
 		RATING: {
