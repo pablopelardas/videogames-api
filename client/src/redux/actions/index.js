@@ -33,9 +33,11 @@ export const getGenres = () => async (dispatch) => {
 	}
 };
 
-export const getGamesByGenre = (genre, source) => (dispatch) => {
-	dispatch({ type: GET_GAMES_BY_GENRE, payload: { genre, source } });
-};
+export const getGamesByGenre =
+	(genre, source = 'All') =>
+	(dispatch) => {
+		dispatch({ type: GET_GAMES_BY_GENRE, payload: { genre, source } });
+	};
 
 export const getGameDetail = (id) => async (dispatch) => {
 	try {

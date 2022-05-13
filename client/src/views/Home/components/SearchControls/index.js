@@ -1,7 +1,12 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getGenres } from '../../../../redux/actions/index.js';
+import useFilters from '../../hooks/useFilters';
 import { SEARCH_CONTROLS_DIV } from './StyledSearchControls.js';
 
 const SearchControls = ({
+	gameList,
+	setGames,
 	input,
 	setInput,
 	searchResults,
@@ -11,12 +16,18 @@ const SearchControls = ({
 	pageButtons,
 	nextHandler,
 	handleSortSelection,
-	handleGenreSelection,
-	handleSourceSelection,
 	page,
 	setPage,
-	genres,
 }) => {
+	const { handleGenreSelection, handleSourceSelection, filteredGames } =
+		useFilters();
+
+	const genres = useSelector((state) => state.genres);
+
+	React.useEffect(() => {
+		setGames(filteredGames);
+	}, [filteredGames]);
+
 	return (
 		<SEARCH_CONTROLS_DIV>
 			<div className='search'>
@@ -44,8 +55,8 @@ const SearchControls = ({
 						<button onClick={nextHandler}>Next</button>
 					</div>
 					<div className='sorts'>
-						<select onChange={handleSortSelection} defaultValue='ORDER BY'>
-							<option value='ORDER BY'>ORDER BY</option>
+						<select onChange={handleSortSelection} defaultValue='ALL'>
+							<option value='ALL'>ALL</option>
 							<option value='RATING DES'>RATING (DES)</option>
 							<option value='RATING ASC'>RATING (ASC)</option>
 							<option value='NAME ASC'>{`NAME A--> Z`}</option>
@@ -61,7 +72,7 @@ const SearchControls = ({
 								</option>
 							))}
 						</select>
-						<select defaultValue='Api' onChange={handleSourceSelection}>
+						<select defaultValue='All' onChange={handleSourceSelection}>
 							<option value='All'>All</option>
 							<option value='Api'>Api</option>
 							<option value='Database'>Database</option>

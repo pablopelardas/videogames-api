@@ -20,9 +20,9 @@ const GameCard = ({
 				src={background_image || unknown}
 				alt='game'
 			/>
-			<p>⭐{rating}</p>
+			<p>{rating ? `⭐${rating}` : null}</p>
 			<p>
-				<span>Genres:</span> {genres.join(', ')}
+				<span>Genres:</span> {genres?.join(', ')}
 			</p>
 		</Card>
 	);

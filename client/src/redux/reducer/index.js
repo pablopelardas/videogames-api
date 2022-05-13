@@ -43,6 +43,7 @@ const gamesReducer = (state = initialState, action) => {
 					...state,
 					isLoading: false,
 					games: action.payload,
+					gamesByGenre: action.payload.flat(2),
 				};
 			} else return { ...state, isLoading: false, gamesByName: action.payload };
 		case GET_GENRES:
@@ -55,20 +56,30 @@ const gamesReducer = (state = initialState, action) => {
 
 			switch (action.payload.source) {
 				case 'Api':
-					filteredGames = state.games[1]?.filter((game) =>
-						game.genres?.includes(action.payload.genre)
-					);
+					if (action.payload.genre !== 'All') {
+						filteredGames = state.games[1]?.filter((game) =>
+							game.genres?.includes(action.payload.genre)
+						);
+					} else filteredGames = state.games[1];
 					break;
 				case 'Database':
-					filteredGames = state.games[0]?.filter((game) =>
-						game.genres?.includes(action.payload.genre)
-					);
+					if (action.payload.genre !== 'All') {
+						filteredGames = state.games[0]
+							? state.games[0].filter((game) =>
+									game.genres?.includes(action.payload.genre)
+							  )
+							: [];
+						console.log(`reducer`);
+						console.log(filteredGames);
+					} else filteredGames = state.games[0];
 					break;
 				case 'All':
-					state.games &&
-						(filteredGames = state?.games
-							.flat(2)
-							.filter((game) => game.genres?.includes(action.payload.genre)));
+					if (action.payload.genre !== 'All') {
+						state.games &&
+							(filteredGames = state.games
+								.flat(2)
+								.filter((game) => game.genres?.includes(action.payload.genre)));
+					} else if (state.games) filteredGames = state.games.flat(2);
 					break;
 				default:
 					return state;

@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import { Container } from '../../../../styled-components/StyledContainer';
 
 export const CardsContainer = styled(Container)`
+	display: flex;
 	background: transparent;
+	min-height: auto;
 	flex-wrap: wrap;
 	gap: 30px;
 	padding: 0 100px 75px 100px;
