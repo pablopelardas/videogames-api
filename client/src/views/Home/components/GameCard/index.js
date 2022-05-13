@@ -22,7 +22,7 @@ const GameCard = ({
 			/>
 			<p>⭐{rating}</p>
 			<p>
-				<span>Genres:</span> {genres.join(', ')}
+				<span>Genres:</span> {genres?.join(', ')}
 			</p>
 		</Card>
 	);

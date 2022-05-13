@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 import { Main } from '../../styled-components/StyledMain';
+import { Container } from '../../styled-components/StyledContainer.js';
 
 export const CREATE_MAIN = styled(Main)`
+	 ;
+`;
+
+export const CREATE_GAME_CONTAINER = styled(Container)`
 	color: white;
 	font-size: 2rem;
 	& .error {
