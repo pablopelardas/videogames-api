@@ -1,5 +1,5 @@
 import React from 'react';
-import { HOME_SECTION } from './StyledHome';
+import { HOME_SECTION, HOME_GAME_CONTAINER } from './StyledHome';
 import GameCards from './components/GameCards';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGames, getGenres, getGamesByGenre } from '../../redux/actions';
@@ -24,9 +24,10 @@ const Home = () => {
 	const [games, setGames] = React.useState([]);
 	const [currentGenre, setGenre] = React.useState('All');
 	const [limit, setLimit] = React.useState(0);
-	const [source, setSource] = React.useState('Api');
+	const [source, setSource] = React.useState('All');
 	const [sort, setSort] = React.useState({ type: 'ORDER BY', option: 'all' });
 	const [input, setInput] = React.useState('');
+	const [searchResults, setSearchResults] = React.useState(false);
 
 	const [pageButtons, setPageButtons] = React.useState([]);
 
@@ -71,6 +72,7 @@ const Home = () => {
 	};
 	const handleSearch = (e) => {
 		dispatch(getGames(input));
+		setSearchResults(true);
 	};
 
 	const handleCardClick = (id) => {
@@ -107,7 +109,7 @@ const Home = () => {
 			Api: 1,
 			Database: 0,
 		};
-		if (gameList.length) {
+		if (gameList.length && !searchResults) {
 			// if (currentGenre === 'All'){
 			// }
 
@@ -158,7 +160,7 @@ const Home = () => {
 			}
 			setPageButtons([...auxPages]);
 		}
-	}, [gameList, page, currentGenre, gamesByGenre, limit, sort]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [gameList, page, currentGenre, gamesByGenre, limit, sort, searchResults]); // eslint-disable-line react-hooks/exhaustive-deps
 	React.useEffect(() => {
 		if (gamesByName.length) {
 			console.log(gamesByName);
@@ -169,62 +171,78 @@ const Home = () => {
 	if (loading) {
 		return (
 			<HOME_SECTION>
-				<h1 className='loading'>Loading...</h1>
+				<HOME_GAME_CONTAINER>
+					<h1 className='loading'>Loading...</h1>
+				</HOME_GAME_CONTAINER>
 			</HOME_SECTION>
 		);
 	}
-	console.log(gamesError);
 
 	return (
 		<HOME_SECTION>
-			{console.log(gamesError)}
-			{gamesError && !!Object.keys(gamesError).length && (
-				<div className='error'>Error</div>
-			)}
-			<div className='searchbar'>
-				<div className='search'>
-					<input
-						placeholder='Search game'
-						value={input}
-						onChange={(e) => setInput(e.target.value)}
-					/>
-					<button onClick={handleSearch}>Search</button>
+			<HOME_GAME_CONTAINER>
+				{gamesError && !!Object.keys(gamesError).length && (
+					<div className='error'>Error</div>
+				)}
+				<div className='searchbar'>
+					<div className='search'>
+						<input
+							placeholder='Search game'
+							value={input}
+							onChange={(e) => setInput(e.target.value)}
+						/>
+						<button onClick={handleSearch}>Search</button>
+					</div>
+					{searchResults ? (
+						<button
+							onClick={() => {
+								setSearchResults(false);
+								setPage(0);
+							}}
+						>
+							Return to all games
+						</button>
+					) : (
+						<>
+							<div className='pages'>
+								<button onClick={prevHandler}>Previous</button>
+								{pageButtons}
+								<button onClick={nextHandler}>Next</button>
+							</div>
+							<div className='sorts'>
+								<select onChange={handleSortSelection} defaultValue='ORDER BY'>
+									<option value='ORDER BY'>ORDER BY</option>
+									<option value='RATING DES'>RATING (DES)</option>
+									<option value='RATING ASC'>RATING (ASC)</option>
+									<option value='NAME ASC'>{`NAME A--> Z`}</option>
+									<option value='NAME DES'>{`NAME Z--> A`}</option>
+								</select>
+							</div>
+							<div className='filters'>
+								<select onChange={handleGenreSelection}>
+									<option value='All'>All</option>
+									{genres.map((genre) => (
+										<option value={genre.name} key={genre.id}>
+											{genre.name}
+										</option>
+									))}
+								</select>
+								<select defaultValue='Api' onChange={handleSourceSelection}>
+									<option value='All'>All</option>
+									<option value='Api'>Api</option>
+									<option value='Database'>Database</option>
+								</select>
+							</div>
+							<h1 className='searchbar--currentPage'>Page: {page + 1}</h1>
+						</>
+					)}
 				</div>
-				<div className='pages'>
-					<button onClick={prevHandler}>Previous</button>
-					{pageButtons}
-					<button onClick={nextHandler}>Next</button>
-				</div>
-				<div className='sorts'>
-					<select onChange={handleSortSelection} defaultValue='ORDER BY'>
-						<option value='ORDER BY'>ORDER BY</option>
-						<option value='RATING DES'>RATING (DES)</option>
-						<option value='RATING ASC'>RATING (ASC)</option>
-						<option value='NAME ASC'>{`NAME A--> Z`}</option>
-						<option value='NAME DES'>{`NAME Z--> A`}</option>
-					</select>
-				</div>
-				<div className='filters'>
-					<select onChange={handleGenreSelection}>
-						<option value='All'>All</option>
-						{genres.map((genre) => (
-							<option value={genre.name} key={genre.id}>
-								{genre.name}
-							</option>
-						))}
-					</select>
-					<select defaultValue='Api' onChange={handleSourceSelection}>
-						<option value='All'>All</option>
-						<option value='Api'>Api</option>
-						<option value='Database'>Database</option>
-					</select>
-				</div>
-			</div>
-			<GameCards
-				games={games}
-				currentPage={page}
-				handleCardClick={handleCardClick}
-			/>
+				<GameCards
+					games={games}
+					currentPage={page}
+					handleCardClick={handleCardClick}
+				/>
+			</HOME_GAME_CONTAINER>
 		</HOME_SECTION>
 	);
 };

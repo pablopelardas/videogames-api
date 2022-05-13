@@ -13,16 +13,23 @@ export const DETAIL_MAIN = styled(Main)`
 `;
 
 export const DETAIL_CONTAINER = styled(Container)`
-	width: 60vw;
 	min-width: 320px;
 	display: grid;
+	color: white;
 	justify-items: center;
-	& .game-details {
+	.loading {
+		height: 84vh;
+	}
+	.details--released-rating {
+		font-weight: bold;
+		font-size: 2rem;
+	}
+	.game-details {
 		font-size: 2rem;
 		text-align: center;
-		& .details--released-rating {
-			font-weight: bold;
-		}
+		display: flex;
+		margin: 30px;
+		gap: 20px;
 		& h3 {
 			margin-bottom: 20px;
 		}
@@ -34,16 +41,46 @@ export const DETAIL_CONTAINER = styled(Container)`
 			}
 		}
 	}
-	& .img-container {
-		margin: 20px 0;
-		width: 100%;
+	.game-details--img-container {
+		width: 80%;
+		min-width: 200px;
+		min-height: 500px;
 		display: flex;
-		justify-content: center;
 		& img {
+			max-height: 100%;
+			max-width: 100%;
+			object-fit: contain;
+		}
+	}
+
+	.game-details--info-container {
+		background-color: #0978c930;
+		display: flex;
+		flex-direction: column;
+		width: 80%;
+		min-width: 300px;
+		padding: 30px;
+		min-height: 500px;
+		place-content: center;
+	}
+
+	@media (max-width: 1024px) {
+		.game-details {
+			flex-direction: column-reverse;
+			align-items: center;
+		}
+		.game-details--img-container {
+			min-height: auto;
+		}
+	}
+
+	@media (max-width: 768px) {
+		width: 100vw;
+		.game-details--img-container {
 			width: 100%;
-			min-width: 300px;
-			max-width: 800px;
-			height: auto;
+		}
+		.game-details--info-container {
+			font-size: 1.6rem;
 		}
 	}
 `;

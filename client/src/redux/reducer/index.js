@@ -32,7 +32,6 @@ const gamesReducer = (state = initialState, action) => {
 				isLoading: false,
 				gamesError: action.payload,
 			};
-			break;
 		case GET_GAMES_SUCCESS:
 			if (Array.isArray(action.payload[0])) {
 				action.payload[0] = action.payload[0].map((vg) => ({

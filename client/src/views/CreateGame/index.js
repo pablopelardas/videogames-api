@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createGame, getGames, getGenres } from '../../redux/actions';
+import { createGame, getGenres } from '../../redux/actions';
 import { CREATE_MAIN } from './StyledCreateGame';
 import { useNavigate } from 'react-router-dom';
 

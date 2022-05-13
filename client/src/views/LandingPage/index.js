@@ -3,16 +3,18 @@ import { Link } from 'react-router-dom';
 
 import { Button, Main } from './StyledLandingPage.js';
 
-import bgDesktop from './assets/landing-bg-desktopHD.jpg';
+import bgLanding from './assets/landing-bg-desktopHD.jpg';
 
 const LandingPage = () => {
 	return (
 		<Main>
-			<h3>Videogames Library</h3>
-			<img src={bgDesktop} alt='Landing background' />
-			<Link to='/home'>
-				<Button>Enter Now</Button>
-			</Link>
+			<img src={bgLanding} alt='Landing background' />
+			<div className='landing--container'>
+				<h3 className='landing--title'>Videogames Library</h3>
+				<Link to='/home'>
+					<Button>Enter Now</Button>
+				</Link>
+			</div>
 		</Main>
 	);
 };

@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 import { Main } from '../../styled-components/StyledMain.js';
+import { Container } from '../../styled-components/StyledContainer.js';
 
 export const HOME_SECTION = styled(Main)`
 	& .searchbar {
-		margin-top: 20px;
-		background-color: grey;
-		height: auto;
 		padding: 20px 0;
 		width: 100%;
 		display: flex;
@@ -13,6 +11,9 @@ export const HOME_SECTION = styled(Main)`
 		justify-content: center;
 		align-items: center;
 		gap: 10px;
+		& .searchbar--currentPage {
+			color: white;
+		}
 	}
 
 	& .search {
@@ -20,7 +21,12 @@ export const HOME_SECTION = styled(Main)`
 
 	& .loading {
 		color: white;
-		height: 100vh;
+		height: 84vh;
 		align-content: center;
 	}
+`;
+
+export const HOME_GAME_CONTAINER = styled(Container)`
+	flex-direction: column;
+	align-items: center;
 `;

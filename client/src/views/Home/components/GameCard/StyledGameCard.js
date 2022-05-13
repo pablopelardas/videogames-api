@@ -10,6 +10,9 @@ export const Card = styled.article`
 		display: none;
 	}
 	background-image: url(${bg});
+	border-radius: 20px;
+	border: 1px solid black;
+	box-shadow: -3px 5px #3c98f88f;
 	& h2 {
 		font-size: 2rem;
 		font-weight: bold;
@@ -24,5 +27,9 @@ export const Card = styled.article`
 		& span {
 			font-weight: bold;
 		}
+	}
+	&:hover {
+		box-shadow: 0px 0px 5px 7px #59fcc980;
+		cursor: pointer;
 	}
 `;

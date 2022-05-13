@@ -27,29 +27,30 @@ const GameDetail = () => {
 	return (
 		<DETAIL_MAIN>
 			{loading ? (
-				<h1>Loading...</h1>
+				<DETAIL_CONTAINER>
+					<h1 className='loading'>Loading...</h1>
+				</DETAIL_CONTAINER>
 			) : (
 				<DETAIL_CONTAINER>
 					<h2>{game.name}</h2>
-					<div className='img-container'>
-						<img src={game.background_image} alt='game' />
-					</div>
+					<p className='details--released-rating'>{game.released_date}</p>
+					<p className='details--released-rating'>⭐{game.rating}</p>
 					<section className='game-details'>
-						<p className='details--released-rating'>{game.released_date}</p>
-						<p className='details--released-rating'>⭐{game.rating}</p>
-						<h3>Description</h3>
-						<p
-							contentEditable='true'
-							dangerouslySetInnerHTML={{ __html: game.description }}
-						/>
-						<p>
-							<span>Genres: </span>
-							{game.genres?.join(', ')}
-						</p>
-						<p>
-							<span>Platforms: </span>
-							{game.platforms?.join(', ')}
-						</p>
+						<div className='game-details--info-container'>
+							<h3>Description</h3>
+							<p dangerouslySetInnerHTML={{ __html: game.description }} />
+							<p>
+								<span>Genres: </span>
+								{game.genres?.join(', ')}
+							</p>
+							<p>
+								<span>Platforms: </span>
+								{game.platforms?.join(', ')}
+							</p>
+						</div>
+						<div className='game-details--img-container'>
+							<img src={game.background_image} alt='game' />
+						</div>
 					</section>
 				</DETAIL_CONTAINER>
 			)}
