@@ -5,7 +5,6 @@ import useFilters from '../../hooks/useFilters';
 import { SEARCH_CONTROLS_DIV } from './StyledSearchControls.js';
 
 const SearchControls = ({
-	gameList,
 	setGames,
 	input,
 	setInput,

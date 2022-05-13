@@ -84,17 +84,6 @@ const Home = () => {
 	};
 
 	//Custom Hook / game,
-	const applySort = {
-		ALL: (array) => array,
-		RATING: {
-			ASC: (array) => array.sort((a, b) => a.rating - b.rating),
-			DES: (array) => array.sort((a, b) => b.rating - a.rating),
-		},
-		NAME: {
-			ASC: (array) => array.sort((a, b) => a.name.localeCompare(b.name)),
-			DES: (array) => array.sort((a, b) => b.name.localeCompare(a.name)),
-		},
-	};
 
 	React.useEffect(() => {
 		if (!gameList.length) dispatch(getGames());

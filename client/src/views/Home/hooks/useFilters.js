@@ -14,7 +14,6 @@ const useFilters = () => {
 			dispatch(getGamesByGenre(state, source));
 			return state;
 		});
-		// setPage(0);
 	};
 
 	const handleSourceSelection = (e) => {
@@ -23,7 +22,6 @@ const useFilters = () => {
 			dispatch(getGamesByGenre(currentGenre, state));
 			return state;
 		});
-		// setPage(0);
 	};
 
 	return {
