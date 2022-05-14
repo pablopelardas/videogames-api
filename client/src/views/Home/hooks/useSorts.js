@@ -1,42 +1,55 @@
 import { useState, useEffect } from 'react';
 
 const useSorts = (games) => {
-	const [sortedGames, setSortedGames] = useState([...games]);
+	const [sortedGames, setSortedGames] = useState(games);
+	const [sort, setSort] = useState(); // rating(false/true), name(false/true), null
+
+	useEffect(() => {
+		console.log(sort);
+		if (!!sort) {
+			setSortedGames(
+				...Object.entries(sort).map(([key, value]) =>
+					applySort[key]([...games], value)
+				)
+			);
+		} else setSortedGames([...games]);
+	}, [sort, games]);
+
 	const applySort = {
-		ALL: (array) => array,
-		RATING: {
-			ASC: (array) => array.sort((a, b) => b.rating - a.rating),
-			DES: (array) => array.sort((a, b) => a.rating - b.rating),
-		},
-		NAME: {
-			ASC: (array) => array.sort((a, b) => b.name.localeCompare(a.name)),
-			DES: (array) => array.sort((a, b) => a.name.localeCompare(b.name)),
-		},
+		RATING: (games, asc) =>
+			asc
+				? games.sort((a, b) => b.rating - a.rating)
+				: games.sort((a, b) => a.rating - b.rating),
+		NAME: (games, asc) =>
+			asc
+				? games.sort((a, b) => b.name.localeCompare(a.name))
+				: games.sort((a, b) => a.name.localeCompare(b.name)),
 	};
 
-	const handleSortSelection = (e) => {
-		if (e.target.innerText === 'RESET') {
-			setSortedGames(applySort.ALL([...games]));
-			return;
-		}
-
-		const type = e.target.innerText.slice(0, -2);
-		let op = e.target.innerText[e.target.innerText.length - 1];
-		const option = {
-			'▲': 'ASC',
-			'▼': 'DES',
-		};
-		//TYPE ▲, TYPE ▼
-		setSortedGames(applySort[type][option[op]]([...games]));
-		if (op === '▲') op = '▼';
-		else op = '▲';
-
-		e.target.innerText = `${type} ${op}`;
+	const handleSortSelection = (value) => {
+		if (!value) setSort();
+		if (value === 'RATING')
+			setSort((prevState) =>
+				prevState
+					? {
+							RATING: !prevState.RATING,
+					  }
+					: { RATING: true }
+			);
+		if (value === 'NAME')
+			setSort((prevState) =>
+				prevState
+					? {
+							NAME: !prevState.NAME,
+					  }
+					: { NAME: true }
+			);
 	};
 
 	return {
 		handleSortSelection,
 		sortedGames,
+		sort,
 	};
 };
 
