@@ -28,14 +28,17 @@ const SearchControls = ({
 				<button onClick={handleSearch}>Search</button>
 			</div>
 			{searchResults ? (
-				<button
-					onClick={() => {
-						setSearchResults(false);
-						setPage(0);
-					}}
-				>
-					Return to all games
-				</button>
+				<>
+					<button
+						onClick={() => {
+							setSearchResults(false);
+							setPage(0);
+						}}
+					>
+						Return to all games
+					</button>
+					<h1 className='searchbar--currentPage'>Page: {page + 1}</h1>
+				</>
 			) : (
 				<>
 					<div className='pages'>
