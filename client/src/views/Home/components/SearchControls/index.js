@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGenres } from '../../../../redux/actions/index.js';
 import useFilters from '../../hooks/useFilters';
+import useSorts from '../../hooks/useSorts.js';
 import { SEARCH_CONTROLS_DIV } from './StyledSearchControls.js';
 
 const SearchControls = ({
@@ -14,14 +15,17 @@ const SearchControls = ({
 	prevHandler,
 	pageButtons,
 	nextHandler,
-	handleSortSelection,
 	page,
 	setPage,
 }) => {
 	const { handleGenreSelection, handleSourceSelection, filteredGames } =
 		useFilters();
-
+	const { handleSortSelection, sortedGames } = useSorts(filteredGames);
 	const genres = useSelector((state) => state.genres);
+
+	React.useEffect(() => {
+		setGames(sortedGames);
+	}, [sortedGames]);
 
 	React.useEffect(() => {
 		setGames(filteredGames);
@@ -54,13 +58,9 @@ const SearchControls = ({
 						<button onClick={nextHandler}>Next</button>
 					</div>
 					<div className='sorts'>
-						<select onChange={handleSortSelection} defaultValue='ALL'>
-							<option value='ALL'>ALL</option>
-							<option value='RATING DES'>RATING (DES)</option>
-							<option value='RATING ASC'>RATING (ASC)</option>
-							<option value='NAME ASC'>{`NAME A--> Z`}</option>
-							<option value='NAME DES'>{`NAME Z--> A`}</option>
-						</select>
+						<button onClick={handleSortSelection}>RATING ▲</button>
+						<button onClick={handleSortSelection}>NAME ▲</button>
+						<button onClick={handleSortSelection}>RESET</button>
 					</div>
 					<div className='filters'>
 						<select onChange={handleGenreSelection}>
