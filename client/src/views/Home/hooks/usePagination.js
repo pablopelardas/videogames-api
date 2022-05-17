@@ -11,7 +11,11 @@ const usePagination = (games, games_per_page = 15) => {
 		let auxPages = [];
 		for (let i = 0; i < limit; i++) {
 			auxPages.push(
-				<button key={`Page ${i + 1}`} onClick={pageButtonHandler}>
+				<button
+					className={`pages--page-button ${page == i && 'selected'}`}
+					key={`Page ${i + 1}`}
+					onClick={pageButtonHandler}
+				>
 					{i + 1}
 				</button>
 			);
@@ -37,9 +41,9 @@ const usePagination = (games, games_per_page = 15) => {
 		prevHandler,
 		pageButtonHandler,
 		pageButtons,
-		page,
 		setPage,
 		paginatedGames,
+		limit,
 	};
 };
 

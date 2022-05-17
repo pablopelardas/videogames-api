@@ -27,6 +27,7 @@ const gamesReducer = (state = initialState, action) => {
 				isLoading: true,
 			};
 		case SET_ERRORS:
+			console.log(`Reducer: ${action.payload}`);
 			return {
 				...state,
 				isLoading: false,

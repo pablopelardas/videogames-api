@@ -5,7 +5,6 @@ const useSorts = (games) => {
 	const [sort, setSort] = useState(); // rating(false/true), name(false/true), null
 
 	useEffect(() => {
-		console.log(sort);
 		if (!!sort) {
 			setSortedGames(
 				...Object.entries(sort).map(([key, value]) =>
@@ -18,12 +17,12 @@ const useSorts = (games) => {
 	const applySort = {
 		RATING: (games, asc) =>
 			asc
-				? games.sort((a, b) => b.rating - a.rating)
-				: games.sort((a, b) => a.rating - b.rating),
+				? games.sort((a, b) => a.rating - b.rating)
+				: games.sort((a, b) => b.rating - a.rating),
 		NAME: (games, asc) =>
 			asc
-				? games.sort((a, b) => b.name.localeCompare(a.name))
-				: games.sort((a, b) => a.name.localeCompare(b.name)),
+				? games.sort((a, b) => a.name.localeCompare(b.name))
+				: games.sort((a, b) => b.name.localeCompare(a.name)),
 	};
 
 	const handleSortSelection = (value) => {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getGamesByGenre } from '../../../redux/actions';
 
@@ -7,6 +7,13 @@ const useFilters = () => {
 	const gamesByGenre = useSelector((state) => state.gamesByGenre);
 	const [source, setSource] = useState('All');
 	const [currentGenre, setGenre] = useState('All');
+
+	const handleReset = () => {
+		setGenre((state) => {
+			dispatch(getGamesByGenre('All', 'All'));
+			return state;
+		});
+	};
 
 	const handleGenreSelection = (e) => {
 		setGenre((state) => {
@@ -27,6 +34,7 @@ const useFilters = () => {
 	return {
 		handleGenreSelection,
 		handleSourceSelection,
+		handleReset,
 		filteredGames: gamesByGenre,
 	};
 };

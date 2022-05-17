@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const SET_LOADING = 'SET_LOADING';
 export const GET_GAMES_SUCCESS = 'GET_GAMES_SUCCESS';
-export const SET_ERRORS = 'GET_GAMES_FAILED';
+export const SET_ERRORS = 'SET_ERRORS';
 export const GET_GENRES = 'GET_GENRES';
 export const GET_GAMES_BY_GENRE = 'GET_GAMES_BY_GENRE';
 export const GET_GAME_DETAIL = 'GET_GAME_DETAIL';
@@ -62,4 +62,8 @@ export const createGame = (body) => async (dispatch) => {
 	} catch (error) {
 		console.log(error);
 	}
+};
+
+export const clearErrors = () => (dispatch) => {
+	dispatch({ type: SET_ERRORS, payload: {} });
 };
