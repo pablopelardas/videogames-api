@@ -1,7 +1,10 @@
 import React from 'react';
+import Loading from '../../components/Loading';
+import Error from '../../components/Error';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGameDetail } from '../../redux/actions';
+import unknown from '../../assets/unknown-cover.jpg';
 
 import { DETAIL_MAIN, DETAIL_CONTAINER } from './StyledGameDetail';
 
@@ -9,51 +12,43 @@ const GameDetail = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const game = useSelector((state) => state.gameDetail);
-	const [loading, setLoading] = React.useState(false);
+	const gamesError = useSelector((state) => state.gamesError);
+	const loading = useSelector((state) => state.isLoading);
 
 	React.useEffect(() => {
 		dispatch(getGameDetail(id));
-		setLoading(true);
 	}, [dispatch, id]);
-
-	React.useEffect(() => {
-		if (Object.keys(game).length) {
-			if (game.id.toString() === id) {
-				setLoading(false);
-			}
-		}
-	}, [game]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<DETAIL_MAIN>
-			{loading ? (
-				<DETAIL_CONTAINER>
-					<h1 className='loading'>Loading...</h1>
-				</DETAIL_CONTAINER>
-			) : (
-				<DETAIL_CONTAINER>
-					<h2>{game.name}</h2>
-					<p className='details--released-rating'>{game.released_date}</p>
-					<p className='details--released-rating'>⭐{game.rating}</p>
-					<section className='game-details'>
-						<div className='game-details--info-container'>
-							<h3>Description</h3>
-							<p dangerouslySetInnerHTML={{ __html: game.description }} />
-							<p>
-								<span>Genres: </span>
-								{game.genres?.join(', ')}
-							</p>
-							<p>
-								<span>Platforms: </span>
-								{game.platforms?.join(', ')}
-							</p>
-						</div>
-						<div className='game-details--img-container'>
-							<img src={game.background_image} alt='game' />
-						</div>
-					</section>
-				</DETAIL_CONTAINER>
-			)}
+			<DETAIL_CONTAINER>
+				{loading && <Loading />}
+				{!!Object.keys(gamesError).length && <Error gamesError={gamesError} />}
+				{!Object.keys(gamesError).length && !loading && (
+					<>
+						<h2>{game.name}</h2>
+						<p className='details--released-rating'>{game.released_date}</p>
+						<p className='details--released-rating'>⭐{game.rating}</p>
+						<section className='game-details'>
+							<div className='game-details--info-container'>
+								<h3>Description</h3>
+								<p dangerouslySetInnerHTML={{ __html: game.description }} />
+								<p>
+									<span>Genres: </span>
+									{game.genres?.join(', ')}
+								</p>
+								<p>
+									<span>Platforms: </span>
+									{game.platforms?.join(', ')}
+								</p>
+							</div>
+							<div className='game-details--img-container'>
+								<img src={game.background_image || unknown} alt='game' />
+							</div>
+						</section>
+					</>
+				)}
+			</DETAIL_CONTAINER>
 		</DETAIL_MAIN>
 	);
 };

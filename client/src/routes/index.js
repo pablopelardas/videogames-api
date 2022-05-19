@@ -6,6 +6,7 @@ import Home from '../views/Home';
 import GameDetail from '../views/GameDetail';
 import Layout from '../views/Layout';
 import CreateGame from '../views/CreateGame';
+import Default404 from '../views/Default404';
 
 const MainRoutes = () => {
 	return (
@@ -16,6 +17,7 @@ const MainRoutes = () => {
 					<Route path='/home' element={<Home />} />
 					<Route path='/detail/:id' element={<GameDetail />} />
 					<Route path='/create-game' element={<CreateGame />} />
+					<Route path='*' element={<Default404 />} />
 				</Routes>
 			</Layout>
 		</BrowserRouter>

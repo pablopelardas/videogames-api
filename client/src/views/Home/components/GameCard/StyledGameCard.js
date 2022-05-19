@@ -28,6 +28,13 @@ export const Card = styled.article`
 			font-weight: bold;
 		}
 	}
+
+	.card--game-img {
+		width: 250px;
+		height: 150px;
+		object-fit: cover;
+		object-position: center;
+	}
 	&:hover {
 		box-shadow: 0px 0px 5px 7px #59fcc980;
 		cursor: pointer;

@@ -42,7 +42,8 @@ export const SEARCH_CONTROLS_DIV = styled.div`
 	.search--button,
 	.pages--next-button,
 	.pages--prev-button,
-	.sorts--button {
+	.sorts--button,
+	.return-button {
 		font-size: 1.5rem;
 		font-weight: bold;
 		letter-spacing: 0.5px;
@@ -51,6 +52,7 @@ export const SEARCH_CONTROLS_DIV = styled.div`
 		border: 0px;
 		background-color: #59fcc9;
 		color: black;
+		cursor: pointer;
 		&:disabled {
 			background-color: #59fcc97d;
 		}
@@ -67,6 +69,7 @@ export const SEARCH_CONTROLS_DIV = styled.div`
 		border-radius: 10px;
 		padding: 5px 7px;
 		border: 0px;
+		cursor: pointer;
 	}
 
 	.selected {

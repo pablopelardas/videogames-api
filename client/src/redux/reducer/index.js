@@ -96,12 +96,12 @@ const gamesReducer = (state = initialState, action) => {
 			}
 			return {
 				...state,
+				isLoading: false,
 				gameDetail: action.payload,
 			};
 		}
 		case CREATE_GAME:
 			let newState = state.games;
-			console.log(action.payload.genres);
 			action.payload.genres = action.payload.genres.map(
 				(g) => state.genres.find((genre) => g === genre.id).name
 			);
@@ -110,6 +110,7 @@ const gamesReducer = (state = initialState, action) => {
 				...state,
 				isLoading: false,
 				games: newState,
+				gamesByGenre: newState.flat(2),
 			};
 		default:
 			return state;

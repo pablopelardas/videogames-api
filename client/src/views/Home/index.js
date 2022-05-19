@@ -2,6 +2,8 @@ import React from 'react';
 import { HOME_SECTION, HOME_GAME_CONTAINER } from './StyledHome';
 import GameCards from './components/GameCards';
 import SearchControls from './components/SearchControls';
+import Loading from '../../components/Loading';
+import Error from '../../components/Error';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGames, getGenres } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
@@ -32,10 +34,8 @@ const Home = () => {
 		<HOME_SECTION>
 			<HOME_GAME_CONTAINER>
 				<SearchControls setGames={setGames} loading={loading} />
-				{loading && <h1 className='loading'>Loading...</h1>}
-				{!!Object.keys(gamesError).length && (
-					<h1 className='loading'>{gamesError.message}</h1>
-				)}
+				{loading && <Loading />}
+				{!!Object.keys(gamesError).length && <Error gamesError={gamesError} />}
 				{!Object.keys(gamesError).length && !loading && (
 					<GameCards games={games} handleCardClick={handleCardClick} />
 				)}

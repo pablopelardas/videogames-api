@@ -40,11 +40,12 @@ export const getGamesByGenre =
 	};
 
 export const getGameDetail = (id) => async (dispatch) => {
+	dispatch({ type: SET_LOADING });
 	try {
 		const response = await axios(`${LOCALHOST_VIDEOGAME}/${id}`);
 		dispatch({ type: GET_GAME_DETAIL, payload: response.data });
 	} catch (error) {
-		console.log(error);
+		dispatch({ type: SET_ERRORS, payload: error });
 	}
 };
 

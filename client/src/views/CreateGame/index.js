@@ -65,14 +65,15 @@ const CreateGame = () => {
 		if (field) {
 			switch (field) {
 				case 'name':
-					if (!input.name.length)
+					if (!/^[\w-\s]+$/.test(input.name))
 						setErrors({
 							...errors,
-							name: `Name field is required`,
+							name: `Name field is required and it must be alphanumeric.`,
 						});
+
 					return;
 				case 'description':
-					if (!input.description.length) {
+					if (!/^[\w-\s]+$/.test(input.description)) {
 						setErrors({
 							...errors,
 							description: `Description field is required`,
@@ -166,127 +167,177 @@ const CreateGame = () => {
 	return (
 		<CREATE_MAIN>
 			<CREATE_GAME_CONTAINER>
-				<form>
-					<label htmlFor='name'>Name: </label>
-					<input
-						type='text'
-						id='name'
-						name='name'
-						value={input.name}
-						onChange={handleInput}
-						onBlur={(e) => handleValidations(e.target.name)}
-						placeholder='Name...'
-					/>
-					{errors.name ? <span className='error'>{errors.name}</span> : null}
-					<br />
-					<label htmlFor='description'>Description: </label>
-					<textarea
-						name='description'
-						id='description'
-						value={input.description}
-						onChange={handleInput}
-						onBlur={(e) => handleValidations(e.target.name)}
-						placeholder='Description...'
-					/>
-					{errors.description ? (
-						<span className='error'>{errors.description}</span>
-					) : null}
-					<br />
-					<label htmlFor='released_date'>Released on: </label>
-					<input
-						type='text'
-						id='released_date'
-						name='released_date'
-						value={input.released_date}
-						onChange={handleInput}
-						onBlur={(e) => handleValidations(e.target.name)}
-						placeholder='YYYY-MM-DD...'
-					/>
-					{errors.released_date ? (
-						<span className='error'>{errors.released_date}</span>
-					) : null}
-					<br />
-					<label htmlFor='rating'>Rating: </label>
-					<input
-						type='text'
-						id='rating'
-						name='rating'
-						value={input.rating}
-						onChange={handleInput}
-						onBlur={(e) => handleValidations(e.target.name)}
-						placeholder='1 ... 5'
-					/>
-					{errors.rating ? (
-						<span className='error'>{errors.rating}</span>
-					) : null}
-					<br />
-					<label htmlFor='background_image'>Game Image: </label>
-					<input
-						type='text'
-						id='background_image'
-						name='background_image'
-						value={input.background_image}
-						onChange={handleInput}
-						onBlur={(e) => handleValidations(e.target.name)}
-						placeholder='Image URL...'
-					/>
-					{errors.background_image ? (
-						<span className='error'>{errors.background_image}</span>
-					) : null}
-					<br />
-					<p>
-						Platforms:{' '}
-						{input.platforms.map((platform) => (
-							<button
-								key={`${platform}-key`}
-								className='platform-button'
-								onClick={(e) => deleteSelection(e, 'platforms')}
-							>
-								{platform}
-							</button>
-						))}
-					</p>
+				<form className='form'>
+					<section className='form--top'>
+						<div className='form--top-name'>
+							<label className='form--label' htmlFor='name'>
+								Name:
+							</label>
+							{errors.name ? (
+								<span className='error'> {errors.name}</span>
+							) : null}
+							<input
+								className={`form--input form--name ${
+									errors.name && `withError`
+								}`}
+								type='text'
+								id='name'
+								name='name'
+								value={input.name}
+								onChange={handleInput}
+								onBlur={(e) => handleValidations(e.target.name)}
+								placeholder='Name...'
+							/>
+						</div>
+						<div className='form--top-description'>
+							<label className='form--label' htmlFor='description'>
+								Description:{' '}
+							</label>
+							{errors.description ? (
+								<span className='error'>{errors.description}</span>
+							) : null}
+							<textarea
+								className={`form--input form--textarea ${
+									errors.description && `withError`
+								}`}
+								name='description'
+								id='description'
+								value={input.description}
+								onChange={handleInput}
+								onBlur={(e) => handleValidations(e.target.name)}
+								placeholder='Description...'
+							/>
+						</div>
+						<div className='form--top-imgUrl'>
+							<label className='form--label' htmlFor='background_image'>
+								Game Image:{' '}
+							</label>
+							{errors.background_image ? (
+								<span className='error'>{errors.background_image}</span>
+							) : null}
+							<input
+								className={`form--input ${
+									errors.background_image && `withError`
+								}`}
+								type='text'
+								id='background_image'
+								name='background_image'
+								value={input.background_image}
+								onChange={handleInput}
+								onBlur={(e) => handleValidations(e.target.name)}
+								placeholder='Image URL...'
+							/>
+						</div>
+					</section>
+					<section className='form--center'>
+						<div className='form--center-row'>
+							<div className='form--center-released_date'>
+								<label className='form--label' htmlFor='released_date'>
+									Released on:{' '}
+								</label>
+								{errors.released_date ? (
+									<span className='error'>{errors.released_date}</span>
+								) : null}
+								<input
+									className={`form--input ${
+										errors.released_date && `withError`
+									}`}
+									type='text'
+									id='released_date'
+									name='released_date'
+									value={input.released_date}
+									onChange={handleInput}
+									onBlur={(e) => handleValidations(e.target.name)}
+									placeholder='YYYY-MM-DD...'
+								/>
+							</div>
+							<div className='form--center-rating'>
+								<label className='form--label' htmlFor='rating'>
+									Rating:{' '}
+								</label>
+								{errors.rating ? (
+									<span className='error'>{errors.rating}</span>
+								) : null}
+								<input
+									className={`form--input ${errors.rating && `withError`}`}
+									type='text'
+									id='rating'
+									name='rating'
+									value={input.rating}
+									onChange={handleInput}
+									onBlur={(e) => handleValidations(e.target.name)}
+									placeholder='1 ... 5'
+								/>
+							</div>
+						</div>
+						<div className='form--center-row'>
+							<div className='form--center-platforms'>
+								<p className='form--label'>Platforms:</p>
+								{errors.platforms ? (
+									<span className='error'>{errors.platforms}</span>
+								) : null}
+								<select
+									className={`form--select ${errors.platforms && `withError`}`}
+									name='platforms'
+									onChange={handleSelection}
+									defaultValue={'Select Platforms'}
+								>
+									<option disabled>Select Platforms</option>
+									{platformsList.map((platform) => (
+										<option key={`${platform}-option`} value={platform}>
+											{platform}
+										</option>
+									))}
+								</select>
+								{input.platforms.length && (
+									<div className='form--buttons-container'>
+										{input.platforms.map((platform) => (
+											<button
+												key={`${platform}-key`}
+												className='selected-button platform'
+												onClick={(e) => deleteSelection(e, 'platforms')}
+											>
+												{platform}
+											</button>
+										))}
+									</div>
+								)}
+							</div>
+							<div className='form--center-genres'>
+								<p className='form--label'>Genres:</p>
 
-					<select name='platforms' onChange={handleSelection}>
-						<option disabled selected>
-							Select platforms
-						</option>
-						{platformsList.map((platform) => (
-							<option key={`${platform}-option`} value={platform}>
-								{platform}
-							</option>
-						))}
-					</select>
-					{errors.platforms ? (
-						<span className='error'>{errors.platforms}</span>
-					) : null}
-					<br />
-					<p>
-						Genres:{' '}
-						{input.genres.map((genre) => (
-							<button
-								key={`${genre}-key`}
-								className='platform-button'
-								onClick={(e) => deleteSelection(e, 'genres')}
-							>
-								{genre}
-							</button>
-						))}
-					</p>
-
-					<select name='genres' onChange={handleSelection}>
-						<option disabled selected>
-							Select genres
-						</option>
-						{genres.map((genre) => (
-							<option key={`${genre.name}-option`} value={genre.name}>
-								{genre.name}
-							</option>
-						))}
-					</select>
-					{errors.genres ? (
-						<span className='error'>{errors.genres}</span>
-					) : null}
+								<select
+									className='form--select'
+									name='genres'
+									onChange={handleSelection}
+									defaultValue={'Select Genres'}
+								>
+									<option disabled>Select Genres</option>
+									{genres.map((genre) => (
+										<option key={`${genre.name}-option`} value={genre.name}>
+											{genre.name}
+										</option>
+									))}
+								</select>
+								{errors.genres ? (
+									<span className='error'>{errors.genres}</span>
+								) : null}
+								{input.genres.length && (
+									<div className='form--buttons-container'>
+										{input.genres.map((genre) => (
+											<button
+												key={`${genre}-key`}
+												className='selected-button genre'
+												onClick={(e) => deleteSelection(e, 'genres')}
+											>
+												{genre}
+											</button>
+										))}
+									</div>
+								)}
+							</div>
+						</div>
+					</section>
 
 					<button
 						type='submit'

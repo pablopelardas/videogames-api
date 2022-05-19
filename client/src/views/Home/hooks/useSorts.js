@@ -12,7 +12,7 @@ const useSorts = (games) => {
 				)
 			);
 		} else setSortedGames([...games]);
-	}, [sort, games]);
+	}, [sort, games]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const applySort = {
 		RATING: (games, asc) =>

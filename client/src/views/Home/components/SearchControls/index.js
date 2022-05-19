@@ -32,17 +32,17 @@ const SearchControls = ({ setGames, loading }) => {
 	React.useEffect(() => {
 		dispatch(clearErrors());
 		handleReset();
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	React.useEffect(() => {
 		setGames(paginatedGames);
-	}, [filteredGames, sortedGames, paginatedGames]);
+	}, [filteredGames, sortedGames, paginatedGames]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	React.useEffect(() => {
 		if (gamesByName.length) {
 			setGames([...gamesByName]);
 		}
-	}, [gamesByName]);
+	}, [gamesByName]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleSearch = (e) => {
 		if (input === '') return;
@@ -78,6 +78,7 @@ const SearchControls = ({ setGames, loading }) => {
 			</div>
 			{searchResults ? (
 				<button
+					className='return-button'
 					disabled={loading}
 					onClick={() => {
 						setSearchResults(false);
