@@ -8,16 +8,14 @@ export const GET_GAMES_BY_GENRE = 'GET_GAMES_BY_GENRE';
 export const GET_GAME_DETAIL = 'GET_GAME_DETAIL';
 export const CREATE_GAME = 'CREATE_GAME';
 
-const LOCALHOST_VIDEOGAMES = `http://localhost:3001/videogames`;
-const LOCALHOST_GENRES = `http://localhost:3001/genres`;
-const LOCALHOST_VIDEOGAME = `http://localhost:3001/videogame`;
+const VIDEOGAMES = `/videogames`;
+const GENRES = `/genres`;
+const VIDEOGAME = `/videogame`;
 
 export const getGames = (name) => async (dispatch) => {
 	dispatch({ type: SET_LOADING });
 	try {
-		const response = await axios(
-			`${LOCALHOST_VIDEOGAMES}${name ? '?name=' + name : ''}`
-		);
+		const response = await axios(`${VIDEOGAMES}${name ? '?name=' + name : ''}`);
 		dispatch({ type: GET_GAMES_SUCCESS, payload: response.data });
 	} catch (error) {
 		dispatch({ type: SET_ERRORS, payload: error });
@@ -26,7 +24,7 @@ export const getGames = (name) => async (dispatch) => {
 
 export const getGenres = () => async (dispatch) => {
 	try {
-		const response = await axios(`${LOCALHOST_GENRES}`);
+		const response = await axios(`${GENRES}`);
 		dispatch({ type: GET_GENRES, payload: response.data });
 	} catch (error) {
 		console.log(error);
@@ -42,7 +40,7 @@ export const getGamesByGenre =
 export const getGameDetail = (id) => async (dispatch) => {
 	dispatch({ type: SET_LOADING });
 	try {
-		const response = await axios(`${LOCALHOST_VIDEOGAME}/${id}`);
+		const response = await axios(`${VIDEOGAME}/${id}`);
 		dispatch({ type: GET_GAME_DETAIL, payload: response.data });
 	} catch (error) {
 		dispatch({ type: SET_ERRORS, payload: error });
@@ -56,7 +54,7 @@ export const createGame = (body) => async (dispatch) => {
 		console.log(body);
 		const response = await axios({
 			method: 'post',
-			url: LOCALHOST_VIDEOGAME,
+			url: VIDEOGAME,
 			data: body,
 		});
 		dispatch({ type: CREATE_GAME, payload: response.data });

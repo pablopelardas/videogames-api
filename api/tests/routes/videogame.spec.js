@@ -6,19 +6,36 @@ const { Videogame, conn } = require('../../src/db.js');
 
 const agent = session(app);
 const videogame = {
-  name: 'Super Mario Bros',
+	name: 'Super Mario Bros',
+	description: 'test description',
+	platforms: ['Playstation', 'Pc'],
 };
 
 describe('Videogame routes', () => {
-  before(() => conn.authenticate()
-  .catch((err) => {
-    console.error('Unable to connect to the database:', err);
-  }));
-  beforeEach(() => Videogame.sync({ force: true })
-    .then(() => Videogame.create(videogame)));
-  describe('GET /videogames', () => {
-    it('should get 200', () =>
-      agent.get('/videogames').expect(200)
-    );
-  });
+	before(() =>
+		conn.authenticate().catch((err) => {
+			console.error('Unable to connect to the database:', err);
+		})
+	);
+	beforeEach(() =>
+		Videogame.sync({ force: true }).then(() => Videogame.create(videogame))
+	);
+	describe('GET /videogames', () => {
+		it('should get 200', (done) => {
+			agent
+				.get('/videogames')
+				.expect(200)
+				.then(() => done())
+				.catch(() => done(new Error('No games found')));
+		});
+	});
+	describe('GET /genres', () => {
+		it('should get 200', (done) => {
+			agent
+				.get('/genres')
+				.expect(200)
+				.then(() => done())
+				.catch(() => done(new Error('No genres found')));
+		});
+	});
 });
