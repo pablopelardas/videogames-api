@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const SET_LOADING = 'SET_LOADING';
 export const GET_GAMES_SUCCESS = 'GET_GAMES_SUCCESS';
-export const SET_ERRORS = 'GET_GAMES_FAILED';
+export const SET_ERRORS = 'SET_ERRORS';
 export const GET_GENRES = 'GET_GENRES';
 export const GET_GAMES_BY_GENRE = 'GET_GAMES_BY_GENRE';
 export const GET_GAME_DETAIL = 'GET_GAME_DETAIL';
@@ -33,16 +33,19 @@ export const getGenres = () => async (dispatch) => {
 	}
 };
 
-export const getGamesByGenre = (genre, source) => (dispatch) => {
-	dispatch({ type: GET_GAMES_BY_GENRE, payload: { genre, source } });
-};
+export const getGamesByGenre =
+	(genre, source = 'All') =>
+	(dispatch) => {
+		dispatch({ type: GET_GAMES_BY_GENRE, payload: { genre, source } });
+	};
 
 export const getGameDetail = (id) => async (dispatch) => {
+	dispatch({ type: SET_LOADING });
 	try {
 		const response = await axios(`${LOCALHOST_VIDEOGAME}/${id}`);
 		dispatch({ type: GET_GAME_DETAIL, payload: response.data });
 	} catch (error) {
-		console.log(error);
+		dispatch({ type: SET_ERRORS, payload: error });
 	}
 };
 
@@ -58,6 +61,10 @@ export const createGame = (body) => async (dispatch) => {
 		});
 		dispatch({ type: CREATE_GAME, payload: response.data });
 	} catch (error) {
-		console.log(error);
+		dispatch({ type: SET_ERRORS, payload: error });
 	}
+};
+
+export const clearErrors = () => (dispatch) => {
+	dispatch({ type: SET_ERRORS, payload: {} });
 };

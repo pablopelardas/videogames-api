@@ -77,7 +77,7 @@ const getGames = async (req, res, next) => {
 			videoGames.push([...apiVideoGames]);
 			return videoGames.flat(2).length
 				? res.send(videoGames.flat(2).slice(0, end))
-				: res.status(404).send(`No se encontraron juegos con ese nombre`);
+				: res.status(404).send(`No games found with that name`);
 		} catch (error) {
 			return next(error);
 		}
@@ -110,7 +110,6 @@ const getGames = async (req, res, next) => {
 const getGameById = async (req, res, next) => {
 	const { id } = req.params;
 	try {
-		console.log(typeof id);
 		if (validateUUID(id)) {
 			// const dbGame = await Videogame.findByPk(id);
 			const dbGame = await Videogame.findOne({
