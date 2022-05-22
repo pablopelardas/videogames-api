@@ -39,4 +39,8 @@ export const Card = styled.article`
 		box-shadow: 0px 0px 5px 7px #59fcc980;
 		cursor: pointer;
 	}
+
+	.card--game-genres {
+		font-size: 1.8rem;
+	}
 `;

@@ -61,7 +61,7 @@ export const createGame = (body) => async (dispatch) => {
 		});
 		dispatch({ type: CREATE_GAME, payload: response.data });
 	} catch (error) {
-		console.log(error);
+		dispatch({ type: SET_ERRORS, payload: error });
 	}
 };
 

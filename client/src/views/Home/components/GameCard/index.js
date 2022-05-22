@@ -20,9 +20,7 @@ const GameCard = ({
 				alt='game'
 			/>
 			<p>{rating ? `⭐${rating}` : null}</p>
-			<p>
-				<span>Genres:</span> {genres?.join(', ')}
-			</p>
+			<p className='card--game-genres'>{genres?.join(', ')}</p>
 		</Card>
 	);
 };
