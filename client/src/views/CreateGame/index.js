@@ -65,7 +65,7 @@ const CreateGame = () => {
 		if (field) {
 			switch (field) {
 				case 'name':
-					if (!/^[\w-ñ\s]+$/.test(input.name))
+					if (!/^[\w-ñ.,'"`!¡?¿\s]+$/.test(input.name))
 						setErrors({
 							...errors,
 							name: `Name field is required and it must be alphanumeric.`,
@@ -73,7 +73,7 @@ const CreateGame = () => {
 
 					return;
 				case 'description':
-					if (!/^[\w-ñ\s]+$/.test(input.description)) {
+					if (!/^[\w-ñ.,'"`!¡?¿\s]+$/.test(input.description)) {
 						setErrors({
 							...errors,
 							description: `Description field is required`,
