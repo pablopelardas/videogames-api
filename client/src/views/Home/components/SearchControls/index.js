@@ -9,8 +9,11 @@ import { SEARCH_CONTROLS_DIV } from './StyledSearchControls.js';
 const SearchControls = ({ setGames, loading }) => {
 	const dispatch = useDispatch();
 	const gamesByName = useSelector((state) => state.gamesByName);
+	const gamesError = useSelector((state) => state.gamesError);
+	const genres = useSelector((state) => state.genres);
 	const [searchResults, setSearchResults] = React.useState(false);
 	const [input, setInput] = React.useState('');
+
 	const {
 		handleGenreSelection,
 		handleSourceSelection,
@@ -18,7 +21,6 @@ const SearchControls = ({ setGames, loading }) => {
 		filteredGames,
 	} = useFilters();
 	const { handleSortSelection, sortedGames, sort } = useSorts(filteredGames);
-
 	const {
 		nextHandler,
 		prevHandler,
@@ -27,7 +29,6 @@ const SearchControls = ({ setGames, loading }) => {
 		setPage,
 		limit,
 	} = usePagination(sortedGames);
-	const genres = useSelector((state) => state.genres);
 
 	React.useEffect(() => {
 		dispatch(clearErrors());
@@ -59,7 +60,23 @@ const SearchControls = ({ setGames, loading }) => {
 			);
 	};
 
-	return (
+	return !!Object.keys(gamesError).length ? (
+		<SEARCH_CONTROLS_DIV>
+			<button
+				className='return-button'
+				disabled={loading}
+				onClick={() => {
+					setSearchResults(false);
+					setInput('');
+					dispatch(clearErrors());
+					handleReset();
+					setPage(0);
+				}}
+			>
+				Return to all games
+			</button>
+		</SEARCH_CONTROLS_DIV>
+	) : (
 		<SEARCH_CONTROLS_DIV>
 			<div className='search'>
 				<input
