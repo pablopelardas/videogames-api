@@ -1,9 +1,9 @@
 import React from 'react';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getGameDetail } from '../../redux/actions';
+import { getGameDetail, deleteGame, getGames } from '../../redux/actions';
 import unknown from '../../assets/unknown-cover.jpg';
 
 import { DETAIL_MAIN, DETAIL_CONTAINER } from './StyledGameDetail';
@@ -11,6 +11,7 @@ import { DETAIL_MAIN, DETAIL_CONTAINER } from './StyledGameDetail';
 const GameDetail = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const game = useSelector((state) => state.gameDetail);
 	const gamesError = useSelector((state) => state.gamesError);
 	const loading = useSelector((state) => state.isLoading);
@@ -46,6 +47,14 @@ const GameDetail = () => {
 								<img src={game.background_image || unknown} alt='game' />
 							</div>
 						</section>
+						<button
+							onClick={() => {
+								dispatch(deleteGame(id));
+								navigate('/home');
+							}}
+						>
+							Delete game
+						</button>
 					</>
 				)}
 			</DETAIL_CONTAINER>

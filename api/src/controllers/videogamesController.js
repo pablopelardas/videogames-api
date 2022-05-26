@@ -22,7 +22,7 @@ const fetchApi = (videoGames, nextPage) => {
 				background_image: vg.background_image,
 				genres: vg.genres?.map((genre) => genre.name),
 				rating: vg.rating,
-				platforms: vg.parent_platforms.map((plat) => {
+				platforms: vg.parent_platforms?.map((plat) => {
 					return plat.platform.name;
 				}),
 			}));
@@ -154,9 +154,7 @@ const createGame = async (req, res, next) => {
 	if (!name || !description || !platforms)
 		return res
 			.status(400)
-			.send(
-				`El videojuego requiere como mínimo un nombre, una descripción y sus plataformas para ser creado.`
-			);
+			.send(`Name, description and platforms fields are required.`);
 	try {
 		const newVg = await Videogame.create({
 			name,
@@ -179,8 +177,66 @@ const createGame = async (req, res, next) => {
 	}
 };
 
+const deleteGame = async (req, res, next) => {
+	const { id } = req.params;
+	try {
+		if (validateUUID(id)) {
+			await Videogame.destroy({
+				where: {
+					id,
+				},
+			});
+			res.send(`Game deleted successfully`);
+		} else
+			return res.status(404).send(`No games in the database matching that id`);
+	} catch (error) {
+		return next(error);
+	}
+};
+
+const updateGame = async (req, res, next) => {
+	const { id } = req.params;
+	const {
+		name,
+		description,
+		release_date,
+		rating,
+		platforms,
+		genres,
+		background_image,
+	} = req.body;
+	if (!name || !description || !platforms)
+		return res
+			.status(400)
+			.send(`Name, description and platforms fields are required.`);
+	try {
+		if (validateUUID(id)) {
+			await Videogame.update(
+				{
+					name,
+					description,
+					release_date,
+					rating,
+					platforms,
+					genres,
+					background_image,
+				},
+				{
+					where: { id },
+				}
+			);
+			return res.send(`Game updated successfully`);
+		}
+		return res.status(404).send(`No games in the database matching that id`);
+	} catch (error) {
+		return next(error);
+	}
+};
+
 module.exports = {
 	getGames,
 	getGameById,
 	createGame,
+	deleteGame,
+	updateGame,
 };

@@ -7,6 +7,7 @@ export const GET_GENRES = 'GET_GENRES';
 export const GET_GAMES_BY_GENRE = 'GET_GAMES_BY_GENRE';
 export const GET_GAME_DETAIL = 'GET_GAME_DETAIL';
 export const CREATE_GAME = 'CREATE_GAME';
+export const DELETE_GAME = 'DELETE_GAME';
 
 const VIDEOGAMES = `/videogames`;
 const GENRES = `/genres`;
@@ -51,13 +52,25 @@ export const createGame = (body) => async (dispatch) => {
 	dispatch({ type: SET_LOADING });
 
 	try {
-		console.log(body);
 		const response = await axios({
 			method: 'post',
 			url: VIDEOGAME,
 			data: body,
 		});
 		dispatch({ type: CREATE_GAME, payload: response.data });
+	} catch (error) {
+		dispatch({ type: SET_ERRORS, payload: error });
+	}
+};
+
+export const deleteGame = (id) => async (dispatch) => {
+	dispatch({ type: SET_LOADING });
+	try {
+		const response = await axios({
+			method: 'delete',
+			url: `${VIDEOGAME}/${id}`,
+		});
+		dispatch({ type: DELETE_GAME, payload: id });
 	} catch (error) {
 		dispatch({ type: SET_ERRORS, payload: error });
 	}
