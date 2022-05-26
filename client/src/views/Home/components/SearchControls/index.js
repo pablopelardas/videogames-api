@@ -136,7 +136,10 @@ const SearchControls = ({ setGames, loading }) => {
 							className='filters--select'
 							disabled={loading}
 							defaultValue='All'
-							onChange={handleSourceSelection}
+							onChange={(e) => {
+								setPage(0);
+								handleSourceSelection(e);
+							}}
 						>
 							<option value='All'>All</option>
 							<option value='Api'>Api</option>

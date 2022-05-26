@@ -76,7 +76,7 @@ const CreateGame = () => {
 					if (!/^[\w-ñ.,'"`!¡?¿\s]+$/.test(input.description)) {
 						setErrors({
 							...errors,
-							description: `Description field is required`,
+							description: `Description field is required and it must be alphanumeric.`,
 						});
 					}
 					return;
@@ -102,7 +102,7 @@ const CreateGame = () => {
 					) {
 						setErrors({
 							...errors,
-							rating: `Rating must be a number between 0 and 5 (Example: 3,45)`,
+							rating: `Rating must be a number between 0 and 5 (Example: 3.45)`,
 						});
 					}
 					return;
