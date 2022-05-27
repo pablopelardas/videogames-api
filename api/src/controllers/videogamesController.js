@@ -27,6 +27,7 @@ const fetchApi = (videoGames, nextPage) => {
 				}),
 			}));
 			vgs.forEach((vg) => videoGames.push(vg));
+			// console.log(vgs[1]);
 			return nextPage;
 		})
 		.catch((error) => console.log(error));
@@ -96,12 +97,24 @@ const getGames = async (req, res, next) => {
 
 		videoGames.push([...vgs]);
 		let apiVideoGames = [];
-		for (let i = 0; i < 5; i++) {
-			nextPage = await fetchApi(apiVideoGames, nextPage);
-		}
-		videoGames.push([...apiVideoGames]);
-		console.log(videoGames.length);
-		return res.send(videoGames);
+
+		let it = 0;
+		let funcion = (next) => {
+			it++;
+			console.log(apiVideoGames.length);
+			if (it <= 5) {
+				fetchApi(apiVideoGames, next).then(funcion);
+			} else {
+				videoGames.push([...apiVideoGames]);
+				return res.send(videoGames);
+			}
+		};
+
+		funcion(nextPage);
+		// for (let i = 0; i < 5; i++) {
+		// 	// nextPage = await fetchApi(apiVideoGames, nextPage);
+		// }
+		// videoGames.push([...apiVideoGames]);
 	} catch (error) {
 		return next(error);
 	}
