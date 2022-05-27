@@ -16,6 +16,12 @@ const GameDetail = () => {
 	const gamesError = useSelector((state) => state.gamesError);
 	const loading = useSelector((state) => state.isLoading);
 
+	const validateUUID = (id) => {
+		const regex =
+			/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+		return regex.test(id);
+	};
+
 	React.useEffect(() => {
 		dispatch(getGameDetail(id));
 	}, [dispatch, id]);
@@ -47,15 +53,18 @@ const GameDetail = () => {
 								<img src={game.background_image || unknown} alt='game' />
 							</div>
 						</section>
-						<button
-							className='delete-button'
-							onClick={() => {
-								dispatch(deleteGame(id));
-								navigate('/home');
-							}}
-						>
-							Delete game
-						</button>
+
+						{validateUUID(id) && (
+							<button
+								className='delete-button'
+								onClick={() => {
+									dispatch(deleteGame(id));
+									navigate('/home');
+								}}
+							>
+								Delete game
+							</button>
+						)}
 					</>
 				)}
 			</DETAIL_CONTAINER>
