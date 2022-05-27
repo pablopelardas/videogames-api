@@ -6,6 +6,7 @@ import {
 	GET_GAMES_BY_GENRE,
 	GET_GAME_DETAIL,
 	GET_GENRES,
+	DELETE_GAME,
 } from '../actions';
 
 const initialState = {
@@ -27,7 +28,6 @@ const gamesReducer = (state = initialState, action) => {
 				isLoading: true,
 			};
 		case SET_ERRORS:
-			console.log(`Reducer: ${action.payload}`);
 			return {
 				...state,
 				isLoading: false,
@@ -70,8 +70,6 @@ const gamesReducer = (state = initialState, action) => {
 									game.genres?.includes(action.payload.genre)
 							  )
 							: [];
-						console.log(`reducer`);
-						console.log(filteredGames);
 					} else filteredGames = state.games[0];
 					break;
 				case 'All':
@@ -90,7 +88,6 @@ const gamesReducer = (state = initialState, action) => {
 				gamesByGenre: [...filteredGames],
 			};
 		case GET_GAME_DETAIL: {
-			console.log(typeof action.payload.genres[0]);
 			if (typeof action.payload.genres[0] === 'object') {
 				action.payload.genres = action.payload.genres.map((g) => g.name);
 			}
@@ -111,6 +108,16 @@ const gamesReducer = (state = initialState, action) => {
 				isLoading: false,
 				games: newState,
 				gamesByGenre: newState.flat(2),
+			};
+		case DELETE_GAME:
+			let newGames = state.games[0].filter(
+				(game) => game.id !== action.payload
+			);
+			return {
+				...state,
+				isLoading: false,
+				games: [[...newGames], [...state.games[1]]],
+				gamesByGenre: [...newGames, ...state.games[1]],
 			};
 		default:
 			return state;
