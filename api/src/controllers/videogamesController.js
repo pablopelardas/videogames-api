@@ -62,7 +62,7 @@ const getGames = async (req, res, next) => {
 			const vgs = await Videogame.findAll({
 				where: {
 					name: {
-						[Op.iLike]: name,
+						[Op.iLike]: `%${name}%`,
 					},
 				},
 			});
