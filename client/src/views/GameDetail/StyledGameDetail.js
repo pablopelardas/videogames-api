@@ -66,6 +66,19 @@ export const DETAIL_CONTAINER = styled(Container)`
 		place-content: center;
 	}
 
+	.delete-button {
+		font-size: 1.5rem;
+		font-weight: bold;
+		letter-spacing: 0.5px;
+		border-radius: 10px;
+		padding: 5px;
+		border: 0px;
+		margin-bottom: 20px;
+		background-color: #ff6565;
+		color: black;
+		cursor: pointer;
+	}
+
 	@media (max-width: 1024px) {
 		.game-details {
 			flex-direction: column-reverse;

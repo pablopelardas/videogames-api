@@ -48,6 +48,7 @@ const GameDetail = () => {
 							</div>
 						</section>
 						<button
+							className='delete-button'
 							onClick={() => {
 								dispatch(deleteGame(id));
 								navigate('/home');
