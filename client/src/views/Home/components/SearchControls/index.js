@@ -45,7 +45,7 @@ const SearchControls = ({ setGames, loading }) => {
 	}, [gamesByName]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleSearch = (e) => {
-		if (input === '') return;
+		if (input === '') return alert('falta ingresar algo en el input');
 		dispatch(getGames(input));
 		setSearchResults(true);
 	};
