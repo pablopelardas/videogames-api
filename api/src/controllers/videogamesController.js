@@ -101,7 +101,6 @@ const getGames = async (req, res, next) => {
 		let it = 0;
 		let funcion = (next) => {
 			it++;
-			console.log(apiVideoGames.length);
 			if (it <= 5) {
 				fetchApi(apiVideoGames, next).then(funcion);
 			} else {
