@@ -69,7 +69,6 @@ const getGames = async (req, res, next) => {
 			let end = 15;
 			if (vgs.length) {
 				end -= vgs.length;
-				// vgs.forEach((vg) => videoGames.push(vg));
 				videoGames.push([...vgs]);
 			}
 			let apiVideoGames = [];
@@ -100,7 +99,6 @@ const getGames = async (req, res, next) => {
 			nextPage = await fetchApi(apiVideoGames, nextPage);
 		}
 		videoGames.push([...apiVideoGames]);
-		console.log(videoGames.length);
 		return res.send(videoGames);
 	} catch (error) {
 		return next(error);
@@ -111,7 +109,6 @@ const getGameById = async (req, res, next) => {
 	const { id } = req.params;
 	try {
 		if (validateUUID(id)) {
-			// const dbGame = await Videogame.findByPk(id);
 			const dbGame = await Videogame.findOne({
 				where: {
 					id: id,
@@ -155,7 +152,7 @@ const createGame = async (req, res, next) => {
 		return res
 			.status(400)
 			.send(
-				`El videojuego requiere como mínimo un nombre, una descripción y sus plataformas para ser creado.`
+				`A videogame require at least a name, a description and a platform to be created.`
 			);
 	try {
 		const newVg = await Videogame.create({
@@ -171,7 +168,7 @@ const createGame = async (req, res, next) => {
 		}
 		newVg.dataValues.genres = genres;
 
-		console.log(`Juego creado!`);
+		console.log(`Game succesfully created!`);
 		console.log(newVg);
 		return res.status(201).send(newVg);
 	} catch (error) {
@@ -183,4 +180,5 @@ module.exports = {
 	getGames,
 	getGameById,
 	createGame,
+	deleteGame,
 };
