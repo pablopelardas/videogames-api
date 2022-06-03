@@ -6,6 +6,8 @@
 5. [Contact](#contact)
 ### General Info
 ***
+🚀 Deploy: [VideoGame Library](https://videogames-api-alpha.vercel.app/)
+
 The goal of the project was to build a Single Page Application using React, Redux, Node and Sequelize. This application brings data from the rawg.io API and has the following features:
 * Search video game by name
 * Enter and get details of a video game.
