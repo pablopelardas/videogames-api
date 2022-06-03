@@ -3,7 +3,7 @@
 2. [Technologies](#technologies)
 3. [Installation](#installation)
 4. [Collaboration](#collaboration)
-5. [FAQs](#faqs)
+5. [Contact](#contact)
 ### General Info
 ***
 The goal of the project was to build a Single Page Application using React, Redux, Node and Sequelize. This application brings data from the rawg.io API and has the following features:
@@ -13,8 +13,8 @@ The goal of the project was to build a Single Page Application using React, Redu
 * Delete a created video game
 * Sort alphabetically
 * Filter by: Genre, Best rating, created/API
-### Screenshot
-[![IMAGE ALT TEXT HERE](https://i3.ytimg.com/vi/jRBvu0dtatM/maxresdefault.jpg)](https://www.youtube.com/watch?v=jRBvu0dtatM)
+### Demo (Click de image)
+[![Project's Demo](https://i3.ytimg.com/vi/jRBvu0dtatM/maxresdefault.jpg)](https://www.youtube.com/watch?v=jRBvu0dtatM)
 ## Technologies
 ***
 A list of technologies used within the project:
@@ -27,9 +27,19 @@ A list of technologies used within the project:
 ## Installation
 ***
 A little intro about the installation. 
+### Backend:
+
 ```
-$ git clone https://example.com
-$ cd ../path/to/the/file
+$ git clone https://github.com/pablopelardas/videogames-api.git
+$ cd ../path/to/the/file/client/api
+$ npm install
+$ npm start
+```
+
+### Frontend:
+```
+$ git clone https://github.com/pablopelardas/videogames-api.git
+$ cd ../path/to/the/file/client
 $ npm install
 $ npm start
 ```
@@ -40,18 +50,9 @@ Give instructions on how to collaborate with your project.
 > Maybe you want to write a quote in this part. 
 > It should go over several rows?
 > This is how you do it.
-## FAQs
+## Contact
 ***
-A list of frequently asked questions
-1. **This is a question in bold**
-Answer of the first question with _italic words_. 
-2. __Second question in bold__ 
-To answer this question we use an unordered list:
-* First point
-* Second Point
-* Third point
-3. **Third question in bold**
-Answer of the third question with *italic words*.
+<p align="left"> <a href="https://www.github.com/pablopelardas" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" /></a> <a href="http://www.instagram.com/pablopelardas" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/instagram.svg" width="32" height="32" /></a> <a href="https://www.linkedin.com/in/pablo-pelardas" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" /></a></p>
 4. **Fourth question in bold**
 | Headline 1 in the tablehead | Headline 2 in the tablehead | Headline 3 in the tablehead |
 |:--------------|:-------------:|--------------:|
