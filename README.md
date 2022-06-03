@@ -23,8 +23,8 @@ A list of technologies used within the project:
 - [ ] Redux
 - [ ] Express
 - [ ] Sequelize - Postgres
-* [React]([https://example.com](https://es.reactjs.org/)): Version 17.0.1
-* [Redux]([https://example.com](https://es.redux.js.org/)): Version 2.34
+* [React]: Version 17.0.1
+* [Redux]: Version 2.34
 * [Library name](https://example.com): Version 1234
 ## Installation
 ***
