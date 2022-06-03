@@ -1,9 +1,3 @@
-#### Tecnologías necesarias:
-- [ ] React
-- [ ] Redux
-- [ ] Express
-- [ ] Sequelize - Postgres
-
 ## Table of Contents
 1. [General Info](#general-info)
 2. [Technologies](#technologies)
@@ -13,19 +7,24 @@
 ### General Info
 ***
 The goal of the project was to build a Single Page Application using React, Redux, Node and Sequelize. This application brings data from the rawg.io API and has the following features:
--Search video game by name
--Enter and get details of a video game.
--Create a video game (if the minimum fields are completed and with a fully controlled form).
--Delete a created video game
--Sort alphabetically
--Filter by: Genre, Best rating, created/API
+* Search video game by name
+* Enter and get details of a video game.
+* Create a video game (if the minimum fields are completed and with a fully controlled form).
+* Delete a created video game
+* Sort alphabetically
+* Filter by: Genre, Best rating, created/API
 ### Screenshot
 ![Image text](https://www.united-internet.de/fileadmin/user_upload/Brands/Downloads/Logo_IONOS_by.jpg)
 ## Technologies
 ***
 A list of technologies used within the project:
-* [Technologie name](https://example.com): Version 12.3 
-* [Technologie name](https://example.com): Version 2.34
+
+- [ ] React
+- [ ] Redux
+- [ ] Express
+- [ ] Sequelize - Postgres
+* [React]([https://example.com](https://es.reactjs.org/)): Version 17.0.1
+* [Redux]([https://example.com](https://es.redux.js.org/)): Version 2.34
 * [Library name](https://example.com): Version 1234
 ## Installation
 ***
