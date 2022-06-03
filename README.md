@@ -14,7 +14,7 @@ The goal of the project was to build a Single Page Application using React, Redu
 * Sort alphabetically
 * Filter by: Genre, Best rating, created/API
 ### Screenshot
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/jRBvu0dtatM/0.jpg)](https://www.youtube.com/watch?v=jRBvu0dtatM)
+[![IMAGE ALT TEXT HERE](https://i3.ytimg.com/vi/jRBvu0dtatM/maxresdefault.jpg)](https://www.youtube.com/watch?v=jRBvu0dtatM)
 ## Technologies
 ***
 A list of technologies used within the project:
