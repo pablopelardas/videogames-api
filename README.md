@@ -15,7 +15,7 @@ The goal of the project was to build a Single Page Application using React, Redu
 * Delete a created video game
 * Sort alphabetically
 * Filter by: Genre, Best rating, created/API
-### Demo (Click de image)
+### Demo (Click the image)
 [![Project's Demo](https://i3.ytimg.com/vi/jRBvu0dtatM/maxresdefault.jpg)](https://www.youtube.com/watch?v=jRBvu0dtatM)
 ## Technologies
 ***
