@@ -43,7 +43,6 @@ $ cd ../path/to/the/file/client
 $ npm install
 $ npm start
 ```
-Side information: To use the application in a special environment use ```lorem ipsum``` to start
 ## Collaboration
 ***
 Hi! If you want to collaborate with the project you can make a fork and a pull request, I will take a look at it and if it's all okay I will merge it with the main branch. Thank you for your interest in the project! :smile:
