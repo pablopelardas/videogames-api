@@ -14,18 +14,17 @@ The goal of the project was to build a Single Page Application using React, Redu
 * Sort alphabetically
 * Filter by: Genre, Best rating, created/API
 ### Screenshot
-![Image text](https://www.united-internet.de/fileadmin/user_upload/Brands/Downloads/Logo_IONOS_by.jpg)
+https://i.ytimg.com/vi/jRBvu0dtatM/maxresdefault.jpg
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/jRBvu0dtatM/0.jpg)](https://www.youtube.com/watch?v=jRBvu0dtatM)
 ## Technologies
 ***
 A list of technologies used within the project:
-
-- [ ] React
-- [ ] Redux
-- [ ] Express
-- [ ] Sequelize - Postgres
 * [React](https://es.reactjs.org/): Version 17.0.1
-* [Redux]: Version 2.34
-* [Library name](https://example.com): Version 1234
+* [Redux](https://es.redux.js.org/): Version 4.2.0
+* [Styled Components](https://styled-components.com/): Version 5.3.5
+* [Express](https://expressjs.com/es/): Version 4.17.1
+* [Sequelize](https://sequelize.org/): Version 6.3.5
+* [PostgreSQL](https://www.postgresql.org/): Version 14
 ## Installation
 ***
 A little intro about the installation. 
